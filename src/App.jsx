@@ -66,11 +66,11 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
 
           {/* Dashboard Pages (with sidebar) */}
-            <Route element={<DashboardLayout />}>
-              <Route path="/dashboard" element={<Dashboard employees={employees} />} />
-              <Route path="/employees" element={<Employees employees={employees} onAdd={addEmployee} onDelete={deleteEmployee} onEdit={editEmployee} />} />
-              <Route path="/departments" element={<Departments employees={employees} />} />
-            </Route>
+          <Route element={<DashboardLayout />}>
+            <Route path="/dashboard" element={<Dashboard employees={employees} />} />
+            <Route path="/employees" element={<Employees employees={employees} onAdd={addEmployee} onDelete={deleteEmployee} onEdit={editEmployee} />} />
+            <Route path="/departments" element={<Departments employees={employees} />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>

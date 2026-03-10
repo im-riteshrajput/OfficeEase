@@ -55,7 +55,7 @@ export default function Landing() {
                             Revolutionize your workflow with OFFIFY's advanced AI-driven tools. Seamlessly manage global teams with our liquid glass interface.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <Link to="/dashboard" className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-[0_0_40px_-10px_rgba(124,59,237,0.5)] transition-all flex items-center justify-center gap-2">
+                            <Link to="/login" className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-[0_0_40px_-10px_rgba(124,59,237,0.5)] transition-all flex items-center justify-center gap-2">
                                 Get Started <ArrowRight className="w-6 h-6" />
                             </Link>
                             <button className="glass-panel hover:bg-white/5 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all border border-white/10">
@@ -74,7 +74,7 @@ export default function Landing() {
                                 <p className="text-primary text-3xl font-black mb-1 font-OFFIFY">500+</p>
                                 <p className="text-slate-400 text-sm font-medium uppercase tracking-wider">Companies</p>
                             </div> */}
-                            <div className="text-center border-l border-white/5">
+                            <div className="text-center">
                                 <p className="text-primary text-3xl font-black mb-1 font-OFFIFY">10K+</p>
                                 <p className="text-slate-400 text-sm font-medium uppercase tracking-wider">Employees</p>
                             </div>

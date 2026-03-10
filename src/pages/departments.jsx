@@ -1,61 +1,78 @@
-import { Users } from "lucide-react";
+import { Building2 } from "lucide-react";
+import React from "react";
 
-function Departments({ employees = [] }) {
-  const deptData = employees.reduce((acc, emp) => {
-    if (emp.department) {
-      if (!acc[emp.department]) acc[emp.department] = [];
-      acc[emp.department].push(emp);
-    }
-    return acc;
-  }, {});
+const deptList = [
+  { name: "Engineering", color: "#7C3AED" },
+  { name: "Design", color: "#06B6D4" },
+  { name: "Marketing", color: "#3B82F6" },
+  { name: "Human Resources", color: "#10B981" },
+  { name: "Product", color: "#F59E0B" },
+  { name: "Sales", color: "#EF4444" },
+];
 
-  const totalDepartments = Object.keys(deptData).length;
+export default function Departments({ employees = [] }) {
+  return (
+    <div className="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen w-full selection:bg-primary/30">
+      <div className="liquid-orb w-[500px] h-[500px] bg-primary top-[-10%] left-[-5%]"></div>
+      <div className="liquid-orb w-[400px] h-[400px] bg-accent-teal bottom-[-10%] right-[-5%]"></div>
+      <div className="flex min-h-screen w-full">
+        <main className="flex-1 ml-[260px] p-8 lg:p-12 overflow-y-auto z-10">
+          <header className="mb-10">
+            <h2 className="text-4xl font-black text-white tracking-tight neon-glow-purple">Departments</h2>
+            <p className="text-slate-400 text-lg mt-2">{deptList.length} Total Departments</p>
+          </header>
 
-    return (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {deptList.map((dept) => {
+              const deptEmployees = employees.filter(emp => emp.department === dept.name);
+              const activeCount = deptEmployees.filter(emp => emp.estatus === "active").length;
 
-        <div className="w-full justify-self-center">
-            <div className="w-[80vw] justify-self-center p-6">
-                <div>
-                    <h1 className="text-2xl font-bold text-foreground">Departments</h1>
-                    <p className="text-muted-foreground mt-1">{totalDepartments} Total Departments</p>
-                </div>
-            </div>
-            <div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {Object.entries(deptData).map(([dept, members]) => {
-          const activeCount = members.filter((m) => m.estatus === "active").length;
-          return (
-            <div key={dept} className="bg-card rounded-xl border border-border p-6 shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-lg bg-accent/15 flex items-center justify-center">
-                  <Users className="w-5 h-5 text-accent" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-card-foreground">{dept}</h3>
-                  <p className="text-xs text-muted-foreground">{members.length} members · {activeCount} active</p>
-                </div>
-              </div>
-              <div className="space-y-2">
-                {members.slice(0, 4).map((m) => (
-                  <div key={m._id || m.id} className="flex items-center gap-2">
-                    <img src={m.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.name || 'User')}&background=random`} alt={m.name} className="w-7 h-7 rounded-full bg-muted" />
-                    <div className="min-w-0">
-                      <p className="text-sm text-card-foreground truncate">{m.name}</p>
-                      <p className="text-xs text-muted-foreground truncate">{m.role}</p>
+              return (
+                <div key={dept.name} className="glass-card p-6 rounded-xl flex flex-col gap-4 relative overflow-hidden group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+                  <div className="flex items-center gap-4 mb-2">
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{
+                        background: `${dept.color}20`,
+                        boxShadow: `0 0 15px ${dept.color}30`,
+                      }}
+                    >
+                      <Building2 className="w-6 h-6" style={{ color: dept.color }} />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">{dept.name}</h3>
+                      <p className="text-sm text-slate-400">
+                        {deptEmployees.length} members · <span className="text-accent-green">{activeCount} active</span>
+                      </p>
                     </div>
                   </div>
-                ))}
-                {members.length > 4 && (
-                  <p className="text-xs text-muted-foreground pl-9">+{members.length - 4} more</p>
-                )}
-              </div>
-            </div>
-          );
-        })}
-                </div>
-            </div>
-        </div>
-    );
-}
 
-export default Departments;
+                  {/* Preview of members */}
+                  <div className="mt-2 flex -space-x-3 overflow-hidden p-1">
+                    {deptEmployees.slice(0, 5).map((emp, idx) => (
+                      <img
+                        key={emp._id || idx}
+                        className="inline-block h-8 w-8 rounded-full ring-2 ring-background-dark object-cover"
+                        src={`https://i.pravatar.cc/150?u=${emp.email || emp.name}`}
+                        alt={emp.name}
+                        title={emp.name}
+                      />
+                    ))}
+                    {deptEmployees.length > 5 && (
+                      <div className="flex items-center justify-center h-8 w-8 rounded-full ring-2 ring-background-dark bg-white/10 text-xs font-bold text-white shadow-inner">
+                        +{deptEmployees.length - 5}
+                      </div>
+                    )}
+                    {deptEmployees.length === 0 && (
+                      <p className="text-xs text-slate-500 italic">No members assigned yet.</p>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}

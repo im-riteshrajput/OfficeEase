@@ -1,55 +1,92 @@
-import { NavLink, useNavigate } from "react-router-dom"
-
+import React from 'react'
+import { Link, NavLink, useNavigate } from "react-router-dom"
+import { LayoutDashboard, Users, Building2, Info, MessageSquare, LogOut } from "lucide-react"
 
 function Sidebar() {
     const navigate = useNavigate();
-    
+    const [user, setUser] = React.useState(null);
+
+    React.useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
+
     const handleLogout = () => {
-        localStorage.removeItem("token"); // remove JWT
-        navigate("/"); // redirect to login page
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/");
     };
 
-
+    const navItems = [
+        { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+        { to: "/employees", label: "Employees", icon: Users },
+        { to: "/departments", label: "Departments", icon: Building2 },
+        // { to: "/about", label: "About", icon: Info },
+        // { to: "/testimonials", label: "Testimonials", icon: MessageSquare },
+    ];
 
     return (
-        <>
-            <nav className="w-64 h-screen flex bg-black z-10">
-                <div className="flex flex-col justify-between justify-self-center ml-10 my-8">
+        <aside className="w-[260px] glass-sidebar border-r border-white/10 flex flex-col fixed inset-y-0 z-50">
+            <div className="p-8">
+                <h1 className="text-3xl font-black tracking-tighter text-white neon-glow-purple">OREON</h1>
+                <p className="text-xs font-semibold text-slate-400 mt-1 uppercase tracking-widest">Management</p>
+            </div>
+            <nav className="flex-1 px-4 space-y-2">
+                {navItems.map(({ to, label, icon: Icon }) => {
+                    const isLink = to !== "#";
 
+                    const classes = ({ isActive }) =>
+                        `flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${isActive
+                            ? "bg-white/10 border-l-4 border-accent-teal text-white"
+                            : "hover:bg-white/5 text-slate-400 hover:text-white"
+                        }`;
 
-                    <span className="text-xl font-bold text-white">Employee Management</span>
+                    const iconClasses = ({ isActive }) =>
+                        `group-hover:scale-110 transition-transform ${isActive ? "text-primary" : ""
+                        }`;
 
-                    <div className="flex flex-col space-x-4 mt-20 mb-50">
-                        <NavLink to="/dashboard" className={({ isActive }) => isActive ? "rounded-md bg-gray-950/50 px-3 py-2 text-lg font-medium text-green-400" : "rounded-md bg-gray-950/50 px-3 py-2 text-md font-medium text-white hover:text-green-600"}>Dashboard</NavLink>
-                        <NavLink to="/employees" className={({ isActive }) => isActive ? "rounded-md bg-gray-950/50 px-3 py-2 text-lg font-medium text-green-400" : "rounded-md bg-gray-950/50 px-3 py-2 text-md font-medium text-white hover:text-green-600"}>Employees</NavLink>
-                        <NavLink to="/departments" className={({ isActive }) => isActive ? "rounded-md bg-gray-950/50 px-3 py-2 text-lg font-medium text-green-400" : "rounded-md bg-gray-950/50 px-3 py-2 text-md font-medium text-white hover:text-green-600"}>Departments</NavLink>
-                        <NavLink to="/authentication" className={({ isActive }) => isActive ? "rounded-md bg-gray-950/50 px-3 py-2 text-lg font-medium text-green-400" : "rounded-md bg-gray-950/50 px-3 py-2 text-md font-medium text-white hover:text-green-600"}>Test Login</NavLink>
-                        <NavLink to="/about" className={({ isActive }) => isActive ? "rounded-md bg-gray-950/50 px-3 py-2 text-lg font-medium text-green-400" : "rounded-md bg-gray-950/50 px-3 py-2 text-md font-medium text-white hover:text-green-600"}>About Me</NavLink>
-                        <NavLink to="/testimonials" className={({ isActive }) => isActive ? "rounded-md bg-gray-950/50 px-3 py-2 text-lg font-medium text-green-400" : "rounded-md bg-gray-950/50 px-3 py-2 text-md font-medium text-white hover:text-green-600"}>Testimonials</NavLink>
-                    </div>
+                    if (isLink) {
+                        return (
+                            <NavLink key={label} to={to} className={classes}>
+                                {({ isActive }) => (
+                                    <>
+                                        <Icon className={`w-5 h-5 ${iconClasses({ isActive })}`} />
+                                        <span className={`text-sm ${isActive ? "font-semibold" : "font-medium"}`}>
+                                            {label}
+                                        </span>
+                                    </>
+                                )}
+                            </NavLink>
+                        );
+                    }
 
-                    <div className="navbtn  gap-4 items-center hidden lg:flex flex-row">
-                        <svg className="w-[25px] h-[25px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" d="M12 5V3m0 18v-2M7.05 7.05 5.636 5.636m12.728 12.728L16.95 16.95M5 12H3m18 0h-2M7.05 16.95l-1.414 1.414M18.364 5.636 16.95 7.05M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" />
-                        </svg>
-
-
-                        <button onClick={handleLogout} className="bg-green-500 px-4 py-2 text-black rounded-full hover:bg-green-600 text-sm font-medium">LOGOUT</button>
-                    </div>
-                    <button type="button" command="--toggle" commandfor="mobile-menu" className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500 lg:hidden">
-                        <span className="absolute -inset-0.5"></span>
-                        <span className="sr-only">Open main menu</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" data-slot="icon" aria-hidden="true" className="size-6 in-aria-expanded:hidden">
-                            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" data-slot="icon" aria-hidden="true" className="size-6 not-in-aria-expanded:hidden">
-                            <path d="M6 18 18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    </button>
-
-                </div>
+                    return (
+                        <a key={label} href={to} className={classes({ isActive: false })}>
+                            <Icon className={`w-5 h-5 ${iconClasses({ isActive: false })}`} />
+                            <span className="text-sm font-medium">{label}</span>
+                        </a>
+                    );
+                })}
             </nav>
-        </>
+            <div className="p-6 mt-auto">
+                <div className="px-4 py-4 rounded-xl liquid-glass">
+                    <div className="flex items-center gap-3">
+                        <div className="size-10 rounded-full bg-cover bg-center border border-white/10"
+                            style={{ backgroundImage: `url('https://i.pravatar.cc/150?u=${user?.email || "Alex"}')` }}></div>
+                        <div className="overflow-hidden">
+                            <p className="text-sm font-bold truncate">{user?.name || "Alex Morgan"}</p>
+                            <p className="text-xs text-slate-400 truncate">{user?.jobRole || "HR Manager"}</p>
+                        </div>
+                    </div>
+                </div>
+                <button onClick={handleLogout} className="w-full flex items-center justify-center gap-2 bg-accent-green/20 hover:bg-accent-green/30 text-accent-green border border-accent-green/30 py-3 rounded-xl transition-all font-bold text-sm">
+                    <LogOut className="w-5 h-5" />
+                    Logout
+                </button>
+            </div>
+        </aside>
     )
 }
 
