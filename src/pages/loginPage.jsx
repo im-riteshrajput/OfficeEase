@@ -1,7 +1,9 @@
 import { roles } from "../data/data.js";
+import { Mail, Lock, Eye, ArrowRight, Fingerprint, User, Phone, Briefcase, Building2, EyeOff } from "lucide-react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import Loading from "../components/loading.jsx";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -88,6 +90,8 @@ function LoginPage() {
       setLoading(false);
     }
   };
+
+  if (loading) return <Loading />;
 
   return (
     <div className="bg-background-dark font-display text-slate-100 min-h-screen flex items-center justify-center relative overflow-hidden py-12">
@@ -279,7 +283,7 @@ function LoginPage() {
               <img alt="Google" className="w-5 h-5" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" />
             </button>
             <button className="w-12 h-12 rounded-xl glass-input flex items-center justify-center hover:bg-white/10 transition-colors">
-              <span className="material-symbols-outlined text-xl text-slate-400">fingerprint</span>
+              <Fingerprint className="w-5 h-5 text-slate-400" />
             </button>
           </div>
         </div>

@@ -15,6 +15,16 @@
   --font-oreon: "Inter", sans-serif;
 }
 
+@keyframes translateX {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(200%); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
 @layer utilities {
   .glass-card {
     background: rgba(255, 255, 255, 0.03);

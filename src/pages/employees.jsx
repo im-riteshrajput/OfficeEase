@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { UserPlus, Search, Filter, ChevronDown, MoreVertical, ChevronLeft, ChevronRight } from 'lucide-react';
+import { UserPlus, Search, Filter, ChevronDown, MoreVertical, ChevronLeft, ChevronRight, Mail } from 'lucide-react';
 import EmployeeModal from '../components/employeeModal.jsx';
 
 export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
@@ -32,12 +32,12 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
         setEditingEmployee(null);
     };
     return (
-        <div className="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen w-full overflow-x-hidden">
+        <div className="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen overflow-x-hidden">
             <div className="gradient-orb bg-primary top-[-10%] left-[-10%]"></div>
             <div className="gradient-orb bg-indigo-600 bottom-[-10%] right-[-10%]"></div>
             <div className="flex min-h-screen w-full">
 
-                <main className="ml-[260px] flex-1 p-8 lg:p-12">
+                <main className="ml-72 flex-1 p-8 lg:p-12">
                     <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
                         <div>
                             <h2 className="text-4xl font-black text-white tracking-tight neon-glow-purple">Employees</h2>
@@ -85,77 +85,58 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
                     </div>
                     <div className="liquid-glass rounded-2xl overflow-hidden shadow-2xl">
                         <div className="overflow-x-auto">
-                            <table className="w-full text-left">
-                                <thead>
-                                    <tr className="border-b border-white/10 bg-white/5">
-                                        <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">Employee</th>
-                                        <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">Role</th>
-                                        <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">Department</th>
-                                        <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">Status</th>
-                                        <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">Join Date</th>
-                                        <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400 text-right">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-white/5">
-                                    {filtered.map((emp) => (
-                                        <tr key={emp._id || emp.id || emp.email} className="hover:bg-white/5 transition-all duration-300 group">
-                                            <td className="px-6 py-5">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="size-10 rounded-full border-2 border-primary/20 bg-cover bg-center overflow-hidden" data-alt={`${emp.name} Avatar`} >
-                                                        <img src={`https://i.pravatar.cc/150?u=${emp.email || emp.name}`} alt={emp.name} className="w-full h-full object-cover" />
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-sm font-bold group-hover:text-primary transition-colors">{emp.name}</p>
-                                                        <p className="text-xs text-slate-500">{emp.email}</p>
+                            {/* Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+                                {filtered.map((employee) => {
+                                    const statusConfig = {
+                                        active: { label: "Active", color: "bg-emerald-500", text: "text-emerald-400" },
+                                        onleave: { label: "On Leave", color: "bg-amber-500", text: "text-amber-400" },
+                                        inactive: { label: "Inactive", color: "bg-rose-500", text: "text-rose-400" }
+                                    };
+                                    const status = statusConfig[employee.estatus] || statusConfig.active;
+
+                                    return (
+                                        <div key={employee._id || employee.id} className="bg-[#252136]/50 border border-white/5 rounded-3xl p-6 flex flex-col items-center text-center relative overflow-hidden group hover:border-white/10 transition-colors">
+                                            {/* Avatar */}
+                                            <div className="relative mb-4">
+                                                <div className="w-24 h-24 rounded-full p-1 bg-gradient-to-b from-primary/50 to-transparent">
+                                                    <img src={`https://i.pravatar.cc/150?u=${employee.email || employee.name}`} alt={employee.name} className="w-full h-full rounded-full object-cover border-4 border-[#1E1B2E]" />
+                                                </div>
+                                                <div className={`absolute bottom-1 right-1 w-4 h-4 rounded-full border-2 border-[#1E1B2E] ${status.color}`}></div>
+                                            </div>
+
+                                            {/* Info */}
+                                            <h3 className="text-xl font-bold text-white mb-1">{employee.name}</h3>
+                                            <p className="text-primary text-sm font-medium mb-6">{employee.jobRole || 'Team Member'}</p>
+
+                                            {/* Status & Dept Block */}
+                                            <div className="w-full bg-[#1A1625] rounded-2xl p-4 flex items-center justify-between mb-6 border border-white/5">
+                                                <div className="text-left">
+                                                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">STATUS</p>
+                                                    <div className="flex items-center gap-1.5">
+                                                        <div className={`w-1.5 h-1.5 rounded-full ${status.color}`}></div>
+                                                        <span className={`text-xs font-medium ${status.text}`}>{status.label}</span>
                                                     </div>
                                                 </div>
-                                            </td>
-                                            <td className="px-6 py-5">
-                                                <span className="text-sm font-medium">{emp.role || 'Employee'}</span>
-                                            </td>
-                                            <td className="px-6 py-5">
-                                                <span className="text-xs font-bold px-2 py-1 rounded bg-slate-500/10 text-slate-400">{emp.department}</span>
-                                            </td>
-                                            <td className="px-6 py-5">
-                                                {emp.estatus === 'active' ? (
-                                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-500/10 text-green-400 border border-green-500/20 backdrop-blur-md">
-                                                        <span className="size-1.5 rounded-full bg-green-500 mr-2"></span>
-                                                        Active
-                                                    </span>
-                                                ) : emp.estatus === 'onleave' ? (
-                                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 backdrop-blur-md">
-                                                        <span className="size-1.5 rounded-full bg-amber-500 mr-2"></span>
-                                                        On Leave
-                                                    </span>
-                                                ) : (
-                                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-red-500/10 text-red-400 border border-red-500/20 backdrop-blur-md">
-                                                        <span className="size-1.5 rounded-full bg-red-500 mr-2"></span>
-                                                        Inactive
-                                                    </span>
-                                                )}
-                                            </td>
-                                            <td className="px-6 py-5">
-                                                <span className="text-sm text-slate-500">{emp.joiningDate ? new Date(emp.joiningDate).toLocaleDateString() : 'N/A'}</span>
-                                            </td>
-                                            <td className="px-6 py-5 text-right flex justify-end gap-2">
-                                                <button onClick={() => handleEdit(emp)} className="text-slate-500 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-2 rounded-lg">
-                                                    Edit
+                                                <div className="text-right">
+                                                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">DEPARTMENT</p>
+                                                    <p className="text-xs font-medium text-slate-300">{employee.department}</p>
+                                                </div>
+                                            </div>
+
+                                            {/* Actions */}
+                                            <div className="w-full flex items-center gap-3">
+                                                <button onClick={() => handleEdit(employee)} className="flex-1 bg-[#2D2842] hover:bg-[#352F4D] text-white text-sm font-medium py-2.5 rounded-xl transition-colors">
+                                                    Edit Profile
                                                 </button>
-                                                <button onClick={() => onDelete(emp._id || emp.id)} className="text-red-400 hover:text-white transition-colors bg-red-500/10 hover:bg-red-500/30 p-2 rounded-lg">
-                                                    Delete
+                                                <button onClick={() => onDelete(employee._id || employee.id)} className="w-11 h-11 bg-rose-500/10 hover:bg-rose-500/20 flex items-center justify-center rounded-xl text-rose-500 transition-colors">
+                                                    <MoreVertical className="w-4 h-4" />
                                                 </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    {filtered.length === 0 && (
-                                        <tr>
-                                            <td colSpan="6" className="px-6 py-8 text-center text-slate-500 font-medium">
-                                                No employees found matching your criteria.
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         </div>
                         <div className="px-6 py-4 flex items-center justify-between border-t border-white/5">
                             <p className="text-xs text-slate-500">Showing <span className="text-slate-300 font-bold">{filtered.length}</span> results</p>

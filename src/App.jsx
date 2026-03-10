@@ -12,23 +12,33 @@ import Landing from './pages/landing.jsx'
 
 function App() {
   const [employees, setEmployees] = useState([]);
+  const [globalLoading, setGlobalLoading] = useState(true);
 
   const fetchEmployees = async () => {
-    const data = await EmployeeData.getEmployees();
-    setEmployees(data);
-    return data;
+    setGlobalLoading(true);
+    try {
+      const data = await EmployeeData.getEmployees();
+      setEmployees(data);
+      return data;
+    } finally {
+      setGlobalLoading(false);
+    }
   };
 
   const addEmployee = async (data) => {
+    setGlobalLoading(true);
     try {
       const savedEmployee = await EmployeeData.createEmployees(data);
       await fetchEmployees();
     } catch (error) {
       console.error("Error adding employee:", error);
+    } finally {
+      setGlobalLoading(false);
     }
   };
 
   const editEmployee = async (updatedData) => {
+    setGlobalLoading(true);
     try {
       const updatedEmployee = await EmployeeData.updateEmployee(
         updatedData._id,
@@ -41,15 +51,20 @@ function App() {
       );
     } catch (error) {
       console.error("Edit error:", error);
+    } finally {
+      setGlobalLoading(false);
     }
   };
 
   const deleteEmployee = async (id) => {
+    setGlobalLoading(true);
     try {
       await EmployeeData.deleteEmployee(id);
       setEmployees((prev) => prev.filter((e) => e._id !== id));
     } catch (error) {
       console.error("Delete error:", error);
+    } finally {
+      setGlobalLoading(false);
     }
   };
 
@@ -66,7 +81,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
 
           {/* Dashboard Pages (with sidebar) */}
-          <Route element={<DashboardLayout />}>
+          <Route element={<DashboardLayout employees={employees} globalLoading={globalLoading} />}>
             <Route path="/dashboard" element={<Dashboard employees={employees} />} />
             <Route path="/employees" element={<Employees employees={employees} onAdd={addEmployee} onDelete={deleteEmployee} onEdit={editEmployee} />} />
             <Route path="/departments" element={<Departments employees={employees} />} />
