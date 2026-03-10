@@ -1,2 +1,102 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #7c3bed;
+  --color-secondary: #2dd4bf;
+  --color-accent-teal: #2dd4bf;
+  --color-accent-green: #10B981;
+  --color-background-light: #f7f6f8;
+  --color-background-dark: #171121;
+  --color-deep-bg: #2F2F33;
+  --color-surface-dark: #2F2F33;
+  --color-glass-border: rgba(255, 255, 255, 0.08);
+
+  --font-display: "Inter", sans-serif;
+  --font-offify: "Inter", sans-serif;
+}
+
+@layer utilities {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .gradient-orb {
+    filter: blur(80px);
+    z-index: 0;
+  }
+
+  .cta-gradient {
+    background: linear-gradient(135deg, #7c3bed 0%, #2dd4bf 100%);
+    box-shadow: 0 10px 25px -5px rgba(124, 59, 237, 0.4);
+  }
+
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .hero-gradient {
+    background: radial-gradient(circle at 50% 50%, #7c3bed 0%, transparent 50%);
+    opacity: 0.15;
+    filter: blur(80px);
+  }
+
+  .orb-purple {
+    background: radial-gradient(circle, #7c3bed 0%, transparent 70%);
+    filter: blur(60px);
+    opacity: 0.2;
+  }
+
+  .orb-teal {
+    background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+    filter: blur(60px);
+    opacity: 0.15;
+  }
+
+  .orb-blue {
+    background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
+    filter: blur(60px);
+    opacity: 0.15;
+  }
+
+  .glass-sidebar {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .neon-glow-purple {
+    text-shadow: 0 0 10px rgba(124, 59, 237, 0.6), 0 0 20px rgba(124, 59, 237, 0.4);
+  }
+
+  .liquid-orb {
+    position: fixed;
+    z-index: -1;
+    filter: blur(80px);
+    opacity: 0.4;
+    border-radius: 50%;
+  }
+
+  .liquid-glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .oreon-title {
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 900;
+  }
+}

@@ -7,6 +7,17 @@ function Dashboard({employees}) {
   const active = employees.filter(emp => emp.estatus === "active").length;
   const onleave = employees.filter(emp => emp.estatus === "onleave").length;
 
+  const deptData = employees.reduce((acc, emp) => {
+    if (emp.department) {
+      acc[emp.department] = (acc[emp.department] || 0) + 1;
+    }
+    return acc;
+  }, {});
+
+  const recentEmployees = [...employees]
+    .sort((a, b) => new Date(b.joinDate || 0).getTime() - new Date(a.joinDate || 0).getTime())
+    .slice(0, 5);
+
 
   return (
     <>
@@ -22,7 +33,7 @@ function Dashboard({employees}) {
         <StatCard title="Total Employees" value={employees.length} />
         <StatCard title="Active" value={active}/>
         <StatCard title="On Leave" value={onleave}/>
-        <StatCard title="Departments" value="0"/>
+        <StatCard title="Departments" value={Object.keys(deptData).length} />
       </div>
 
       <div className="w-full justify-self-center grid grid-cols-1 lg:grid-cols-2 gap-5">
@@ -31,7 +42,7 @@ function Dashboard({employees}) {
         <div className="bg-card rounded-xl border border-border p-6 shadow-sm">
           <h3 className="font-semibold text-card-foreground mb-4">Department Breakdown</h3>
           <div className="space-y-3">
-            {/* {Object.entries(deptData).map(([dept, count]) => (
+            {Object.entries(deptData).map(([dept, count]) => (
               <div key={dept}>
                 <div className="flex justify-between text-sm mb-1">
                   <span className="text-card-foreground font-medium">{dept}</span>
@@ -40,11 +51,11 @@ function Dashboard({employees}) {
                 <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div
                     className="h-full bg-accent rounded-full transition-all"
-                    style={{ width: `${(count / employees.length) * 100}%` }}
+                    style={{ width: `${employees.length > 0 ? (count / employees.length) * 100 : 0}%` }}
                   />
                 </div>
               </div>
-            ))} */}
+            ))}
           </div>
         </div>
 
@@ -52,18 +63,18 @@ function Dashboard({employees}) {
         <div className="bg-card rounded-xl border border-border p-6 shadow-sm">
           <h3 className="font-semibold text-card-foreground mb-4">Recent Hires</h3>
           <div className="space-y-3">
-            {/* {recentEmployees.map((emp) => (
-              <div key={emp.id} className="flex items-center gap-3 py-2">
-                <img src={emp.avatar} alt={emp.name} className="w-9 h-9 rounded-full bg-muted" />
+            {recentEmployees.map((emp) => (
+              <div key={emp._id || emp.id} className="flex items-center gap-3 py-2">
+                <img src={emp.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(emp.name || 'User')}&background=random`} alt={emp.name} className="w-9 h-9 rounded-full bg-muted" />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-card-foreground truncate">{emp.name}</p>
                   <p className="text-xs text-muted-foreground">{emp.role}</p>
                 </div>
                 <span className="text-xs text-muted-foreground whitespace-nowrap">
-                  {new Date(emp.joinDate).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
+                  {emp.joinDate ? new Date(emp.joinDate).toLocaleDateString("en-US", { month: "short", year: "numeric" }) : ""}
                 </span>
               </div>
-            ))} */}
+            ))}
           </div>
         </div>
       </div>

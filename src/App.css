@@ -1,0 +1,25 @@
+/* App-level background and layout overrides for Liquid Glass */
+
+#root {
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Ensure the main app container sits above orbs */
+.app-container {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+}
+
+/* Dashboard layout background */
+.dashboard-bg {
+    background: var(--color-dark);
+    min-height: 100vh;
+}
+
+/* Landing page specific overrides */
+.landing-page {
+    position: relative;
+    overflow-x: hidden;
+}
