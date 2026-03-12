@@ -1,8 +1,11 @@
 import Sidebar from "../components/sidebar.jsx"
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import Loading from "../components/loading.jsx";
 
 function DashboardLayout({ employees, globalLoading }) {
+    const token = localStorage.getItem("token");
+    if (!token) return <Navigate to="/" />;
+    
     if (globalLoading) return <Loading />;
     return (
         <div className="flex" style={{ background: 'var(--color-dark)', minHeight: '100vh' }}>

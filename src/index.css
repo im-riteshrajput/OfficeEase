@@ -7,6 +7,7 @@
   --color-accent-green: #10B981;
   --color-background-light: #f7f6f8;
   --color-background-dark: #171121;
+  --color-dark: #171121; /* missing variable fixed */
   --color-deep-bg: #2F2F33;
   --color-surface-dark: #2F2F33;
   --color-glass-border: rgba(255, 255, 255, 0.08);
@@ -14,6 +15,15 @@
   --font-display: "Inter", sans-serif;
   --font-oreon: "Inter", sans-serif;
 }
+
+/* Global Background Fix */
+html, body {
+  background-color: #171121;
+  color: #f8fafc;
+  margin: 0;
+  padding: 0;
+}
+
 
 @keyframes translateX {
   from { transform: translateX(-100%); }

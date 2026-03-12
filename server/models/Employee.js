@@ -44,7 +44,12 @@ const userSchema = new mongoose.Schema({
   },
 },
 
-{ collection: "employees" }
+{ timestamps: true }
 );
 
-export default mongoose.model("Employee", userSchema);
+const Admin = mongoose.model("Admin", userSchema, "admins");
+const HR = mongoose.model("HR", userSchema, "hr_staff");
+const Employee = mongoose.model("Employee", userSchema, "standard_employees");
+
+export { Admin, HR, Employee };
+export default Employee;

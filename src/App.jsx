@@ -78,7 +78,7 @@ function App() {
         <Routes>
           {/* Public Pages (no sidebar) */}
           <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage onLogin={fetchEmployees} />} />
 
           {/* Dashboard Pages (with sidebar) */}
           <Route element={<DashboardLayout employees={employees} globalLoading={globalLoading} />}>

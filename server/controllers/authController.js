@@ -1,11 +1,17 @@
-import Employee from "../models/Employee.js";
+import { Admin, HR, Employee } from "../models/Employee.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+
+// Helper to get model based on role
+const getModelByRole = (role) => {
+  if (role === 'Admin') return Admin;
+  if (role === 'Human Resources') return HR;
+  return Employee;
+};
 
 // REGISTER
 const register = async (req, res) => {
   try {
-
     const {
       name,
       email,
@@ -18,15 +24,21 @@ const register = async (req, res) => {
       estatus
     } = req.body;
 
-    const employeeExist = await Employee.findOne({ email });
+    // Check if employee exists in any collection
+    const [adminExist, hrExist, empExist] = await Promise.all([
+      Admin.findOne({ email }),
+      HR.findOne({ email }),
+      Employee.findOne({ email })
+    ]);
 
-    if (employeeExist) {
+    if (adminExist || hrExist || empExist) {
       return res.status(400).json({ message: "Employee already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const Model = getModelByRole(dbRole);
 
-    const employee = new Employee({
+    const employee = new Model({
       name,
       email,
       password: hashedPassword,
@@ -43,6 +55,7 @@ const register = async (req, res) => {
     res.status(201).json({ message: "Employee registered successfully" });
 
   } catch (error) {
+    console.error("REGISTER ERROR:", error);
     res.status(500).json(error);
   }
 };
@@ -55,25 +68,32 @@ const login = async (req, res) => {
 
     const { email, password } = req.body;
 
-    const employee = await Employee.findOne({ email });
+    // Search across all collections
+    const [admin, hr, employee] = await Promise.all([
+        Admin.findOne({ email }),
+        HR.findOne({ email }),
+        Employee.findOne({ email })
+    ]);
 
-    if (!employee)
+    const user = admin || hr || employee;
+
+    if (!user)
       return res.status(400).json({ message: "Invalid email" });
 
-    const validPassword = await bcrypt.compare(password, employee.password);
+    const validPassword = await bcrypt.compare(password, user.password);
 
     if (!validPassword)
       return res.status(400).json({ message: "Invalid password" });
 
     const token = jwt.sign(
-      { id: employee._id, role: employee.dbRole },
-      "secretkey",
+      { id: user._id, role: user.dbRole },
+      process.env.JWT_SECRET || "riteshSecret123",
       { expiresIn: "1d" }
     );
 
     res.json({
       token,
-      employee
+      employee: user
     });
 
   } catch (error) {

@@ -14,7 +14,7 @@ function Sidebar({ employees = [] }) {
                 try {
                     const parsed = JSON.parse(storedUser);
                     setUser(parsed);
-                    console.log("Sidebar: Profile loaded from localStorage", parsed);
+                    // console.log("Sidebar: Profile loaded from localStorage", parsed);
                     return;
                 } catch (e) {
                     console.error("Sidebar: Error parsing user from localStorage", e);
@@ -23,7 +23,7 @@ function Sidebar({ employees = [] }) {
 
             // 2. Fallback: Decode token and find in employees list
             const token = localStorage.getItem("token");
-            console.log("Sidebar: Attempting token fallback. Employees count:", employees.length);
+            // console.log("Sidebar: Attempting token fallback. Employees count:", employees.length);
 
             if (token && employees.length > 0) {
                 try {

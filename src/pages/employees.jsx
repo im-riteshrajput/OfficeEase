@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { UserPlus, Search, Filter, ChevronDown, MoreVertical, ChevronLeft, ChevronRight, Mail } from 'lucide-react';
 import EmployeeModal from '../components/employeeModal.jsx';
@@ -8,12 +8,25 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
     const [department, setDepartment] = useState("All");
     const [modalOpen, setModalOpen] = useState(false);
     const [editingEmployee, setEditingEmployee] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const ITEMS_PER_PAGE = 6;
+
+    // Reset pagination when search or department changes
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [search, department]);
 
     const filtered = employees.filter((e) => {
         const matchesSearch = e.name.toLowerCase().includes(search.toLowerCase()) || e.email.toLowerCase().includes(search.toLowerCase()) || e.role?.toLowerCase().includes(search.toLowerCase());
         const matchesDept = department === "All" || e.department === department;
         return matchesSearch && matchesDept;
     });
+
+    const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+    const paginatedEmployees = filtered.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
 
     const activeCount = employees.filter(e => e.estatus === 'active').length;
 
@@ -87,7 +100,7 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
                         <div className="overflow-x-auto">
                             {/* Grid */}
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-                                {filtered.map((employee) => {
+                                {paginatedEmployees.map((employee) => {
                                     const statusConfig = {
                                         active: { label: "Active", color: "bg-emerald-500", text: "text-emerald-400" },
                                         onleave: { label: "On Leave", color: "bg-amber-500", text: "text-amber-400" },
@@ -139,15 +152,33 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
                             </div>
                         </div>
                         <div className="px-6 py-4 flex items-center justify-between border-t border-white/5">
-                            <p className="text-xs text-slate-500">Showing <span className="text-slate-300 font-bold">{filtered.length}</span> results</p>
+                            <p className="text-xs text-slate-500">
+                                Showing <span className="text-slate-300 font-bold">{paginatedEmployees.length}</span> of <span className="text-slate-300 font-bold">{filtered.length}</span> results
+                            </p>
                             <div className="flex gap-2">
-                                <button className="size-8 rounded-lg liquid-glass flex items-center justify-center hover:bg-white/10 text-slate-400 hover:text-white transition-all">
+                                <button
+                                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                    disabled={currentPage === 1}
+                                    className={`size-8 rounded-lg liquid-glass flex items-center justify-center transition-all ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white/10 text-slate-400 hover:text-white'}`}
+                                >
                                     <ChevronLeft className="w-5 h-5" />
                                 </button>
-                                <button className="size-8 rounded-lg bg-primary flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-primary/20">1</button>
-                                <button className="size-8 rounded-lg liquid-glass flex items-center justify-center hover:bg-white/10 text-slate-400 hover:text-white transition-all text-xs font-bold">2</button>
-                                <button className="size-8 rounded-lg liquid-glass flex items-center justify-center hover:bg-white/10 text-slate-400 hover:text-white transition-all text-xs font-bold">3</button>
-                                <button className="size-8 rounded-lg liquid-glass flex items-center justify-center hover:bg-white/10 text-slate-400 hover:text-white transition-all">
+                                
+                                {[...Array(totalPages)].map((_, i) => (
+                                    <button
+                                        key={i + 1}
+                                        onClick={() => setCurrentPage(i + 1)}
+                                        className={`size-8 rounded-lg text-xs font-bold transition-all ${currentPage === i + 1 ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'liquid-glass hover:bg-white/10 text-slate-400 hover:text-white'}`}
+                                    >
+                                        {i + 1}
+                                    </button>
+                                ))}
+
+                                <button
+                                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                    disabled={currentPage === totalPages || totalPages === 0}
+                                    className={`size-8 rounded-lg liquid-glass flex items-center justify-center transition-all ${currentPage === totalPages || totalPages === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white/10 text-slate-400 hover:text-white'}`}
+                                >
                                     <ChevronRight className="w-5 h-5" />
                                 </button>
                             </div>

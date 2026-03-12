@@ -1,11 +1,12 @@
 import { roles } from "../data/data.js";
-import { Mail, Lock, Eye, ArrowRight, Fingerprint, User, Phone, Briefcase, Building2, EyeOff } from "lucide-react";
+import { Mail, Lock, Eye, ArrowRight, Fingerprint, User, Phone, Briefcase, Building2, EyeOff, ShieldCheck, LogIn, UserPlus, Phone as PhoneIcon, Building, Shield } from "lucide-react";
 import { useState, useEffect } from "react";
+import { API } from "../data/api";
 import axios from "axios";
 import Loading from "../components/loading.jsx";
 import { useNavigate } from "react-router-dom";
 
-function LoginPage() {
+function LoginPage(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,7 +46,7 @@ function LoginPage() {
     }
     setLoading(true);
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
+      await API.post("/auth/register", {
         name: fullName,
         email,
         password,
@@ -75,13 +76,17 @@ function LoginPage() {
     }
     setLoading(true);
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+      const res = await API.post(
+        "/auth/login",
         { email, password }
       );
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.employee));
       console.log("Login successful", res.data.employee);
+      
+      // Trigger re-fetch in App
+      if (props.onLogin) await props.onLogin();
+      
       navigate("/dashboard");
     } catch (err) {
       console.log("Login failed :", err.response?.data || err.message);
@@ -104,7 +109,7 @@ function LoginPage() {
         <div className="glass-card rounded-2xl p-8 md:p-12 shadow-2xl relative">
           <div className="flex flex-col items-center mb-10">
             <div className="mb-6 flex items-center justify-center w-16 h-16 rounded-full bg-primary/20 text-primary box-glow-purple">
-              <span className="material-symbols-outlined text-4xl">fingerprint</span>
+              <ShieldCheck className="w-10 h-10" />
             </div>
             <h1 className="text-4xl font-bold tracking-tight text-white text-center">
               {isLogin ? "Sign In" : "Create Account"}
@@ -119,7 +124,7 @@ function LoginPage() {
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-300 ml-1">Full Name</label>
                 <div className="relative">
-                  <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xl">person</span>
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5" />
                   <input
                     className="glass-input w-full h-14 pl-12 pr-4 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                     placeholder="John Doe"
@@ -134,7 +139,7 @@ function LoginPage() {
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-300 ml-1">Email Address</label>
               <div className="relative">
-                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xl">mail</span>
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5" />
                 <input
                   className="glass-input w-full h-14 pl-12 pr-4 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                   placeholder="name@company.com"
@@ -151,7 +156,7 @@ function LoginPage() {
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-slate-300 ml-1">Phone Number</label>
                     <div className="relative">
-                      <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xl">call</span>
+                      <PhoneIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5" />
                       <input
                         className="glass-input w-full h-14 pl-12 pr-4 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                         placeholder="0000000000"
@@ -164,7 +169,7 @@ function LoginPage() {
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-slate-300 ml-1">Department</label>
                     <div className="relative">
-                      <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xl">corporate_fare</span>
+                      <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5" />
                       <input
                         className="glass-input w-full h-14 pl-12 pr-4 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                         placeholder="Engineering"
@@ -180,7 +185,7 @@ function LoginPage() {
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-slate-300 ml-1">Job Role</label>
                     <div className="relative">
-                      <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xl">badge</span>
+                      <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5" />
                       <input
                         className="glass-input w-full h-14 pl-12 pr-4 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                         placeholder="Developer"
@@ -193,7 +198,7 @@ function LoginPage() {
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-slate-300 ml-1">System Role</label>
                     <div className="relative">
-                      <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xl">admin_panel_settings</span>
+                      <Shield className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5" />
                       <select
                         className="glass-input w-full h-14 pl-12 pr-4 rounded-xl text-white bg-transparent appearance-none focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                         value={dbRole}
@@ -213,7 +218,7 @@ function LoginPage() {
                 {isLogin && <a className="text-xs text-primary hover:text-secondary transition-colors" href="#">Forgot password?</a>}
               </div>
               <div className="relative">
-                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xl">lock</span>
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5" />
                 <input
                   className="glass-input w-full h-14 pl-12 pr-4 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                   placeholder="••••••••"
@@ -226,9 +231,11 @@ function LoginPage() {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  <span className="material-symbols-outlined text-xl">
-                    {showPassword ? "visibility_off" : "visibility"}
-                  </span>
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
                 </button>
               </div>
             </div>
@@ -237,7 +244,7 @@ function LoginPage() {
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-300 ml-1">Confirm Password</label>
                 <div className="relative">
-                  <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xl">verified_user</span>
+                  <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5" />
                   <input
                     className="glass-input w-full h-14 pl-12 pr-4 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                     placeholder="••••••••"
@@ -262,7 +269,13 @@ function LoginPage() {
               className="cta-gradient w-full h-14 rounded-xl text-white font-bold text-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
             >
               <span>{loading ? "Processing..." : isLogin ? "Sign In" : "Create Account"}</span>
-              {!loading && <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">{isLogin ? "login" : "how_to_reg"}</span>}
+              {!loading && (
+                isLogin ? (
+                  <LogIn className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                ) : (
+                  <UserPlus className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                )
+              )}
             </button>
           </form>
 
@@ -278,14 +291,7 @@ function LoginPage() {
             </p>
           </div>
 
-          <div className="mt-6 flex items-center justify-center gap-4">
-            <button className="w-12 h-12 rounded-xl glass-input flex items-center justify-center hover:bg-white/10 transition-colors">
-              <img alt="Google" className="w-5 h-5" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" />
-            </button>
-            <button className="w-12 h-12 rounded-xl glass-input flex items-center justify-center hover:bg-white/10 transition-colors">
-              <Fingerprint className="w-5 h-5 text-slate-400" />
-            </button>
-          </div>
+
         </div>
 
         <div className="mt-8 text-center text-slate-500 text-xs flex items-center justify-center gap-4">

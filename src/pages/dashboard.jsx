@@ -250,12 +250,10 @@ export default function Dashboard({ employees = [] }) {
                     />
                     <div className="flex-1">
                       <h5 className="text-white font-bold text-sm">{emp.name}</h5>
-                      <p className="text-slate-400 text-xs font-medium">{emp.role}</p>
+                      <p className="text-slate-400 text-xs font-medium">{emp.jobRole || emp.role}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-white text-xs font-bold">
-                        {new Date(emp.joinDate?.$date || emp.joinDate).toLocaleDateString()}
-                      </p>
+                        {emp.joinDate ? new Date(emp.joinDate?.$date || emp.joinDate).toLocaleDateString() : "N/A"}
                       <p className="text-primary text-[10px] font-bold uppercase tracking-wider">{emp.department}</p>
                     </div>
                   </div>
