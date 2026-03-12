@@ -12,7 +12,13 @@ function LoginPage(props) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate("/dashboard");
+      const storedUser = localStorage.getItem("user");
+      try {
+        const parsed = storedUser ? JSON.parse(storedUser) : null;
+        navigate(parsed?.dbRole === "Employee" ? "/profile" : "/dashboard");
+      } catch {
+        navigate("/dashboard");
+      }
     }
   }, [navigate]);
 
@@ -87,7 +93,9 @@ function LoginPage(props) {
       // Trigger re-fetch in App
       if (props.onLogin) await props.onLogin();
       
-      navigate("/dashboard");
+      // Route based on role
+      const role = res.data.employee?.dbRole;
+      navigate(role === "Employee" ? "/profile" : "/dashboard");
     } catch (err) {
       console.log("Login failed :", err.response?.data || err.message);
       alert(err.response?.data?.message || "Login failed. Please check your credentials.");

@@ -172,7 +172,7 @@ export default function Dashboard({ employees = [] }) {
                 <p className="text-slate-400 text-sm font-medium">Total Employees</p>
                 <div className="flex items-baseline gap-2">
                   <h3 className="text-3xl font-bold text-white">{total.toLocaleString()}</h3>
-                  <span className="text-accent-green text-xs font-bold">+12%</span>
+                  {/* <span className="text-accent-green text-xs font-bold">+12%</span> */}
                 </div>
               </div>
             </div>
@@ -184,7 +184,7 @@ export default function Dashboard({ employees = [] }) {
                 <p className="text-slate-400 text-sm font-medium">Active Now</p>
                 <div className="flex items-baseline gap-2">
                   <h3 className="text-3xl font-bold text-white">{active.toLocaleString()}</h3>
-                  <span className="text-rose-500 text-xs font-bold">-5%</span>
+                  {/* <span className="text-rose-500 text-xs font-bold">-5%</span> */}
                 </div>
               </div>
             </div>
@@ -196,7 +196,7 @@ export default function Dashboard({ employees = [] }) {
                 <p className="text-slate-400 text-sm font-medium">On Leave</p>
                 <div className="flex items-baseline gap-2">
                   <h3 className="text-3xl font-bold text-white">{onleave.toLocaleString()}</h3>
-                  <span className="text-rose-500 text-xs font-bold">-2%</span>
+                  {/* <span className="text-rose-500 text-xs font-bold">-2%</span> */}
                 </div>
               </div>
             </div>
@@ -252,7 +252,7 @@ export default function Dashboard({ employees = [] }) {
                       <p className="text-slate-400 text-xs font-medium">{emp.jobRole || emp.role}</p>
                     </div>
                     <div className="text-right">
-                        {emp.joinDate ? new Date(emp.joinDate?.$date || emp.joinDate).toLocaleDateString() : "N/A"}
+                      {emp.joinDate ? new Date(emp.joinDate?.$date || emp.joinDate).toLocaleDateString() : "N/A"}
                       <p className="text-primary text-[10px] font-bold uppercase tracking-wider">{emp.department}</p>
                     </div>
                   </div>

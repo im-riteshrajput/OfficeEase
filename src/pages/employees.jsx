@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { UserPlus, Search, Filter, ChevronDown, MoreVertical, ChevronLeft, ChevronRight, Mail, UserCircle } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { UserPlus, Search, Filter, ChevronDown, MoreVertical, ChevronLeft, ChevronRight, Mail, UserCircle, Edit3 } from 'lucide-react';
 import EmployeeModal from '../components/employeeModal.jsx';
 
 export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
+    const navigate = useNavigate();
     const [search, setSearch] = useState("");
     const [department, setDepartment] = useState("All");
     const [modalOpen, setModalOpen] = useState(false);
@@ -139,8 +140,11 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
 
                                             {/* Actions */}
                                             <div className="w-full flex items-center gap-3">
-                                                <button onClick={() => handleEdit(employee)} className="flex-1 bg-[#2D2842] hover:bg-[#352F4D] text-white text-sm font-medium py-2.5 rounded-xl transition-colors">
-                                                    Edit Profile
+                                                <button onClick={() => navigate(`/employee/${employee._id || employee.id}`)} className="flex-1 bg-[#2D2842] hover:bg-[#352F4D] text-white text-sm font-medium py-2.5 rounded-xl transition-colors">
+                                                    View Profile
+                                                </button>
+                                                <button onClick={() => handleEdit(employee)} className="w-11 h-11 bg-primary/10 hover:bg-primary/20 flex items-center justify-center rounded-xl text-primary transition-colors" title="Edit">
+                                                    <Edit3 className="w-4 h-4" />
                                                 </button>
                                                 <button onClick={() => onDelete(employee._id || employee.id)} className="w-11 h-11 bg-rose-500/10 hover:bg-rose-500/20 flex items-center justify-center rounded-xl text-rose-500 transition-colors">
                                                     <MoreVertical className="w-4 h-4" />
@@ -163,7 +167,7 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
                                 >
                                     <ChevronLeft className="w-5 h-5" />
                                 </button>
-                                
+
                                 {[...Array(totalPages)].map((_, i) => (
                                     <button
                                         key={i + 1}

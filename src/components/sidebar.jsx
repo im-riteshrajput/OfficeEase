@@ -54,13 +54,20 @@ function Sidebar({ employees = [] }) {
         navigate("/login");
     };
 
-    const navItems = [
+    const userRole = user?.dbRole || "";
+    const isEmployee = userRole === "Employee";
+
+    const adminNavItems = [
         { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
         { to: "/employees", label: "Employees", icon: Users },
         { to: "/departments", label: "Departments", icon: Building2 },
-        // { to: "/about", label: "About", icon: Info },
-        // { to: "/testimonials", label: "Testimonials", icon: MessageSquare },
     ];
+
+    const employeeNavItems = [
+        { to: "/profile", label: "My Profile", icon: UserCircle },
+    ];
+
+    const navItems = isEmployee ? employeeNavItems : adminNavItems;
 
     return (
         <aside className="w-[260px] glass-sidebar border-r border-white/10 flex flex-col fixed inset-y-0 z-50">
@@ -106,15 +113,20 @@ function Sidebar({ employees = [] }) {
                 })}
             </nav>
             <div className="p-6 mt-auto">
-                <div className="px-4 mb-3 py-4 rounded-xl liquid-glass">
-                    <div className="flex items-center gap-3">
-                        <UserCircle className="size-10 text-slate-400 flex-shrink-0" strokeWidth={1.5} />
-                        <div className="overflow-hidden">
-                            <p className="text-sm text-white font-bold truncate">{user?.name || "Alex Morgan"}</p>
-                            <p className="text-xs text-slate-400 truncate">{user?.jobRole || "HR Manager"}</p>
+                {!isEmployee && (
+                    <div
+                        onClick={() => navigate("/profile")}
+                        className="px-4 mb-3 py-4 rounded-xl liquid-glass cursor-pointer hover:bg-white/10 transition-all group"
+                    >
+                        <div className="flex items-center gap-3">
+                            <UserCircle className="size-10 text-slate-400 flex-shrink-0 group-hover:text-primary transition-colors" strokeWidth={1.5} />
+                            <div className="overflow-hidden">
+                                <p className="text-sm text-white font-bold truncate">{user?.name || "Alex Morgan"}</p>
+                                <p className="text-xs text-slate-400 truncate">{user?.jobRole || "HR Manager"}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
                 <button
                     onClick={handleLogout}
                     className="w-full flex items-center justify-center gap-2 bg-accent-green/20 hover:bg-accent-green/30 text-accent-green border border-accent-green/30 py-3 rounded-xl transition-all font-bold text-sm"

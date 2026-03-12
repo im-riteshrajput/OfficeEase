@@ -8,6 +8,7 @@ import DashboardLayout from './pages/dashboardLayout.jsx'
 import Dashboard from './pages/dashboard'
 import Departments from './pages/departments'
 import Landing from './pages/landing.jsx'
+import EmployeeProfile from './pages/EmployeeProfile.jsx'
 
 
 function App() {
@@ -90,6 +91,8 @@ function App() {
             <Route path="/dashboard" element={<Dashboard employees={employees} />} />
             <Route path="/employees" element={<Employees employees={employees} onAdd={addEmployee} onDelete={deleteEmployee} onEdit={editEmployee} />} />
             <Route path="/departments" element={<Departments employees={employees} />} />
+            <Route path="/profile" element={<EmployeeProfile employees={employees} />} />
+            <Route path="/employee/:id" element={<EmployeeProfile employees={employees} />} />
           </Route>
         </Routes>
       </BrowserRouter>

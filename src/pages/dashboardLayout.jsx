@@ -1,10 +1,24 @@
 import Sidebar from "../components/sidebar.jsx"
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet, Navigate, useLocation } from "react-router-dom";
 import Loading from "../components/loading.jsx";
 
 function DashboardLayout({ employees, globalLoading }) {
     const token = localStorage.getItem("token");
+    const location = useLocation();
+    
     if (!token) return <Navigate to="/" />;
+
+    // Role-based route protection
+    let userRole = "";
+    try {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) userRole = JSON.parse(storedUser)?.dbRole || "";
+    } catch {}
+
+    const adminOnlyRoutes = ["/dashboard", "/employees", "/departments"];
+    if (userRole === "Employee" && adminOnlyRoutes.includes(location.pathname)) {
+        return <Navigate to="/profile" replace />;
+    }
     
     if (globalLoading) return <Loading />;
     return (
