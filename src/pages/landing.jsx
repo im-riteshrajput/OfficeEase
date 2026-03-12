@@ -15,7 +15,7 @@ export default function Landing() {
     }, []);
 
     return (
-        <div className="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen relative overflow-x-hidden">
+        <div className="bg-background-dark font-display text-slate-100 min-h-screen relative overflow-x-hidden">
             <div className="fixed inset-0 pointer-events-none z-0">
                 <div className="orb-purple absolute top-[-10%] left-[-5%] w-[500px] h-[500px]"></div>
                 <div className="orb-teal absolute bottom-[10%] right-[-5%] w-[400px] h-[400px]"></div>

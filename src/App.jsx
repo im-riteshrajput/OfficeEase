@@ -69,7 +69,12 @@ function App() {
   };
 
   useEffect(() => {
-    fetchEmployees();
+    const token = localStorage.getItem("token");
+    if (token) {
+      fetchEmployees();
+    } else {
+      setGlobalLoading(false);
+    }
   }, []);
 
   return (

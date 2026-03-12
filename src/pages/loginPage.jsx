@@ -1,5 +1,5 @@
-import { roles } from "../data/data.js";
-import { Mail, Lock, Eye, ArrowRight, Fingerprint, User, Phone, Briefcase, Building2, EyeOff, ShieldCheck, LogIn, UserPlus, Phone as PhoneIcon, Building, Shield } from "lucide-react";
+import { roles, departments } from "../data/data.js";
+import { Mail, Lock, Eye, ArrowRight, Fingerprint, User, Phone, Briefcase, Building2, EyeOff, ShieldCheck, LogIn, UserPlus, Phone as PhoneIcon, Building, Shield, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 import { API } from "../data/api";
 import axios from "axios";
@@ -168,15 +168,21 @@ function LoginPage(props) {
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-slate-300 ml-1">Department</label>
-                    <div className="relative">
-                      <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5" />
-                      <input
-                        className="glass-input w-full h-14 pl-12 pr-4 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                        placeholder="Engineering"
-                        type="text"
+                    <div className="relative group/select">
+                      <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5 group-focus-within/select:text-primary transition-colors" />
+                      <select
+                        className="glass-input w-full h-14 pl-12 pr-10 rounded-xl text-white bg-transparent appearance-none focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all cursor-pointer"
                         value={department}
                         onChange={(e) => setDepartment(e.target.value)}
-                      />
+                      >
+                        <option value="" disabled className="bg-slate-900">Select Department</option>
+                        {departments.filter(dept => dept !== "All").map(dept => (
+                          <option key={dept} value={dept} className="bg-slate-900">
+                            {dept}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5 pointer-events-none group-focus-within/select:text-primary transition-colors" />
                     </div>
                   </div>
                 </div>
@@ -197,15 +203,16 @@ function LoginPage(props) {
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-slate-300 ml-1">System Role</label>
-                    <div className="relative">
-                      <Shield className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5" />
+                    <div className="relative group/select">
+                      <Shield className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5 group-focus-within/select:text-primary transition-colors" />
                       <select
-                        className="glass-input w-full h-14 pl-12 pr-4 rounded-xl text-white bg-transparent appearance-none focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                        className="glass-input w-full h-14 pl-12 pr-10 rounded-xl text-white bg-transparent appearance-none focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all cursor-pointer"
                         value={dbRole}
                         onChange={(e) => setDbRole(e.target.value)}
                       >
                         {roles.map(role => <option key={role} value={role} className="bg-slate-900">{role}</option>)}
                       </select>
+                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5 pointer-events-none group-focus-within/select:text-primary transition-colors" />
                     </div>
                   </div>
                 </div>

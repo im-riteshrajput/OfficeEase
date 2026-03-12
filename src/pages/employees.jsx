@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { UserPlus, Search, Filter, ChevronDown, MoreVertical, ChevronLeft, ChevronRight, Mail } from 'lucide-react';
+import { UserPlus, Search, Filter, ChevronDown, MoreVertical, ChevronLeft, ChevronRight, Mail, UserCircle } from 'lucide-react';
 import EmployeeModal from '../components/employeeModal.jsx';
 
 export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
@@ -45,7 +45,7 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
         setEditingEmployee(null);
     };
     return (
-        <div className="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen overflow-x-hidden">
+        <div className="bg-background-dark font-display text-slate-100 min-h-screen overflow-x-hidden">
             <div className="gradient-orb bg-primary top-[-10%] left-[-10%]"></div>
             <div className="gradient-orb bg-indigo-600 bottom-[-10%] right-[-10%]"></div>
             <div className="flex min-h-screen w-full">
@@ -112,8 +112,8 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
                                         <div key={employee._id || employee.id} className="bg-[#252136]/50 border border-white/5 rounded-3xl p-6 flex flex-col items-center text-center relative overflow-hidden group hover:border-white/10 transition-colors">
                                             {/* Avatar */}
                                             <div className="relative mb-4">
-                                                <div className="w-24 h-24 rounded-full p-1 bg-gradient-to-b from-primary/50 to-transparent">
-                                                    <img src={`https://i.pravatar.cc/150?u=${employee.email || employee.name}`} alt={employee.name} className="w-full h-full rounded-full object-cover border-4 border-[#1E1B2E]" />
+                                                <div className="w-24 h-24 rounded-full p-1 bg-gradient-to-b from-primary/50 to-transparent flex items-center justify-center">
+                                                    <UserCircle className="w-full h-full text-slate-400 rounded-full" strokeWidth={1} />
                                                 </div>
                                                 <div className={`absolute bottom-1 right-1 w-4 h-4 rounded-full border-2 border-[#1E1B2E] ${status.color}`}></div>
                                             </div>

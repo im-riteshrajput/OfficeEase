@@ -109,7 +109,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Users, BadgeCheck, Zap, CalendarX, Building, MoreHorizontal } from 'lucide-react';
+import { Users, BadgeCheck, Zap, CalendarX, Building, MoreHorizontal, UserCircle } from 'lucide-react';
 
 export default function Dashboard({ employees = [] }) {
   const total = employees.length;
@@ -149,7 +149,7 @@ export default function Dashboard({ employees = [] }) {
     .slice(0, 4);
 
   return (
-    <div className="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen selection:bg-primary/30">
+    <div className="font-display bg-background-dark text-slate-100 min-h-screen selection:bg-primary/30">
       <div className="liquid-orb w-[500px] h-[500px] bg-primary top-[-10%] left-[-5%]"></div>
       <div className="liquid-orb w-[400px] h-[400px] bg-accent-teal bottom-[-10%] right-[-5%]"></div>
       <div className="liquid-orb w-[300px] h-[300px] bg-purple-900 top-[20%] right-[10%]"></div>
@@ -243,10 +243,9 @@ export default function Dashboard({ employees = [] }) {
               <div className="space-y-5">
                 {recentHires.map((emp) => (
                   <div key={emp._id || emp.email} className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-all cursor-pointer">
-                    <img
-                      className="w-12 h-12 rounded-full border-2 border-primary/30 object-cover"
-                      alt={`${emp.name} Avatar`}
-                      src={`https://i.pravatar.cc/150?u=${emp.email || emp.name}`}
+                    <UserCircle
+                      className="w-12 h-12 rounded-full text-slate-400 flex-shrink-0"
+                      strokeWidth={1.5}
                     />
                     <div className="flex-1">
                       <h5 className="text-white font-bold text-sm">{emp.name}</h5>

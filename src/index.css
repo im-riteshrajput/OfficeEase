@@ -17,8 +17,12 @@
 }
 
 /* Global Background Fix */
+html {
+  color-scheme: dark;
+}
+
 html, body {
-  background-color: #171121;
+  background-color: var(--color-background-dark, #171121);
   color: #f8fafc;
   margin: 0;
   padding: 0;

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, NavLink, useNavigate } from "react-router-dom"
-import { LayoutDashboard, Users, Building2, Info, MessageSquare, LogOut } from "lucide-react"
+import { LayoutDashboard, Users, Building2, Info, MessageSquare, LogOut, UserCircle } from "lucide-react"
 
 function Sidebar({ employees = [] }) {
     const navigate = useNavigate();
@@ -108,8 +108,7 @@ function Sidebar({ employees = [] }) {
             <div className="p-6 mt-auto">
                 <div className="px-4 mb-3 py-4 rounded-xl liquid-glass">
                     <div className="flex items-center gap-3">
-                        <div className="size-10 rounded-full bg-cover bg-center border border-white/10"
-                            style={{ backgroundImage: `url('https://i.pravatar.cc/150?u=${user?.email || "Alex"}')` }}></div>
+                        <UserCircle className="size-10 text-slate-400 flex-shrink-0" strokeWidth={1.5} />
                         <div className="overflow-hidden">
                             <p className="text-sm text-white font-bold truncate">{user?.name || "Alex Morgan"}</p>
                             <p className="text-xs text-slate-400 truncate">{user?.jobRole || "HR Manager"}</p>

@@ -1,4 +1,4 @@
-import { Building2 } from "lucide-react";
+import { Building2, UserCircle } from "lucide-react";
 import React from "react";
 
 const deptList = [
@@ -12,7 +12,7 @@ const deptList = [
 
 export default function Departments({ employees = [] }) {
   return (
-    <div className="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen w-full selection:bg-primary/30">
+    <div className="font-display bg-background-dark text-slate-100 min-h-screen selection:bg-primary/30">
       <div className="liquid-orb w-[500px] h-[500px] bg-primary top-[-10%] left-[-5%]"></div>
       <div className="liquid-orb w-[400px] h-[400px] bg-accent-teal bottom-[-10%] right-[-5%]"></div>
       <div className="flex min-h-screen w-full">
@@ -50,11 +50,10 @@ export default function Departments({ employees = [] }) {
                   {/* Preview of members */}
                   <div className="mt-2 flex -space-x-3 overflow-hidden p-1">
                     {deptEmployees.slice(0, 5).map((emp, idx) => (
-                      <img
+                      <UserCircle
                         key={emp._id || idx}
-                        className="inline-block h-8 w-8 rounded-full ring-2 ring-background-dark object-cover"
-                        src={`https://i.pravatar.cc/150?u=${emp.email || emp.name}`}
-                        alt={emp.name}
+                        className="inline-block h-8 w-8 rounded-full ring-2 ring-background-dark text-slate-400"
+                        strokeWidth={1.5}
                         title={emp.name}
                       />
                     ))}
