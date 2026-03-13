@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserPlus, Search, Filter, ChevronDown, Trash2, ChevronLeft, ChevronRight, Mail, UserCircle } from 'lucide-react';
 import EmployeeModal from '../components/employeeModal.jsx';
+import { getInitials } from '../utils/helpers';
 
 export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
     const navigate = useNavigate();
@@ -11,6 +12,21 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
     const [editingEmployee, setEditingEmployee] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const ITEMS_PER_PAGE = 6;
+    
+    // Get current user role from localStorage
+    const [currentUserRole, setCurrentUserRole] = useState("Employee");
+    
+    useEffect(() => {
+        try {
+            const storedUser = localStorage.getItem("user");
+            if (storedUser) {
+                const parsed = JSON.parse(storedUser);
+                if (parsed.dbRole) setCurrentUserRole(parsed.dbRole);
+            }
+        } catch (e) {
+            console.error("Error reading role from localStorage", e);
+        }
+    }, []);
 
     // Reset pagination when search or department changes
     useEffect(() => {
@@ -43,10 +59,10 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
         setEditingEmployee(null);
     };
     return (
-        <div className="bg-background-dark font-display text-slate-100 min-h-[calc(100vh-64px)] overflow-x-hidden relative w-full">
-            <div className="gradient-orb bg-primary top-[-10%] left-[-10%]"></div>
-            <div className="gradient-orb bg-indigo-600 bottom-[-10%] right-[-10%]"></div>
-            <div className="flex w-full min-w-0">
+        <div className="bg-background-dark font-display text-slate-100 min-h-[calc(100vh-64px)] overflow-x-hidden relative w-full selection:bg-primary/30">
+            <div className="liquid-orb w-[500px] h-[500px] bg-primary top-[-10%] left-[-5%]"></div>
+            <div className="liquid-orb w-[400px] h-[400px] bg-accent-teal bottom-[-10%] right-[-5%]"></div>
+            <div className="flex w-full min-w-0 relative z-10">
 
                 <main className="flex-1 p-3 sm:p-8 lg:p-12 w-full min-w-0 overflow-x-hidden">
                     <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-10 w-full">
@@ -111,7 +127,9 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
                                             {/* Avatar */}
                                             <div className="relative mb-4">
                                                 <div className="w-24 h-24 rounded-full p-1 bg-gradient-to-b from-primary/50 to-transparent flex items-center justify-center">
-                                                    <UserCircle className="w-full h-full text-slate-400 rounded-full" strokeWidth={1} />
+                                                    <div className="w-full h-full rounded-full bg-primary/20 flex flex-shrink-0 items-center justify-center text-primary font-bold text-3xl">
+                                                        {getInitials(employee.name)}
+                                                    </div>
                                                 </div>
                                                 <div className={`absolute bottom-1 right-1 w-4 h-4 rounded-full border-2 border-[#1E1B2E] ${status.color}`}></div>
                                             </div>
@@ -191,6 +209,7 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
                 onClose={() => { setModalOpen(false); setEditingEmployee(null); }}
                 onSave={handleSave}
                 employee={editingEmployee}
+                currentUserRole={currentUserRole}
             />
         </div>
     );

@@ -1,5 +1,6 @@
 import express from "express";
 import { Admin, HR, Employee } from "../models/Employee.js";
+import PendingUser from "../models/PendingUser.js";
 import { verifyToken, authorize } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -36,6 +37,64 @@ router.get("/", verifyToken, async (req, res) => {
   } catch (error) {
     console.error("FETCH ERROR:", error);
     res.status(500).json({ message: "Error fetching segregated data" });
+  }
+});
+
+// GET all pending users (Admin/HR only)
+router.get("/pending", verifyToken, authorize(['Admin', 'Human Resources']), async (req, res) => {
+  try {
+    const pendingUsers = await PendingUser.find().sort({ createdAt: -1 });
+    res.json(pendingUsers);
+  } catch (error) {
+    console.error("FETCH PENDING ERROR:", error);
+    res.status(500).json({ message: "Error fetching pending users" });
+  }
+});
+
+// PUT approve pending user (Admin/HR only)
+router.put("/:id/approve", verifyToken, authorize(['Admin', 'Human Resources']), async (req, res) => {
+  try {
+    const pendingUser = await PendingUser.findById(req.params.id);
+    if (!pendingUser) {
+      return res.status(404).json({ message: "Pending user not found" });
+    }
+
+    // Determine target collection based on dbRole
+    let Model;
+    if (pendingUser.dbRole === 'Admin') Model = Admin;
+    else if (pendingUser.dbRole === 'Human Resources') Model = HR;
+    else Model = Employee;
+
+    // Create in the actual collection
+    const userData = pendingUser.toObject();
+    delete userData._id;
+    delete userData.__v;
+    userData.estatus = "active";
+
+    const newUser = new Model(userData);
+    await newUser.save();
+
+    // Delete from pending
+    await PendingUser.findByIdAndDelete(req.params.id);
+
+    res.json({ message: "User approved successfully", user: newUser });
+  } catch (error) {
+    console.error("APPROVE ERROR:", error);
+    res.status(500).json({ message: "Error approving user" });
+  }
+});
+
+// DELETE reject pending user (Admin/HR only)
+router.delete("/:id/reject", verifyToken, authorize(['Admin', 'Human Resources']), async (req, res) => {
+  try {
+    const pendingUser = await PendingUser.findByIdAndDelete(req.params.id);
+    if (!pendingUser) {
+      return res.status(404).json({ message: "Pending user not found" });
+    }
+    res.json({ message: "Application rejected and deleted" });
+  } catch (error) {
+    console.error("REJECT ERROR:", error);
+    res.status(500).json({ message: "Error rejecting user" });
   }
 });
 
@@ -97,9 +156,58 @@ router.put("/:id", verifyToken, async (req, res) => {
      }
   }
 
+  // Only Admin can change dbRole
+  if (role !== 'Admin' && req.body.dbRole) {
+      delete req.body.dbRole; // Forcefully remove dbRole from payload to prevent privilege escalation
+  }
+
   try {
     let updateResult;
-    // Try updating in all collections
+
+    // Check if dbRole is being changed by an Admin
+    if (role === 'Admin' && req.body.dbRole) {
+        // Find the user to check their current dbRole
+        const [existingAdmin, existingHR, existingEmployee] = await Promise.all([
+            Admin.findById(targetId),
+            HR.findById(targetId),
+            Employee.findById(targetId)
+        ]);
+
+        const existingUser = existingAdmin || existingHR || existingEmployee;
+
+        if (!existingUser) {
+            return res.status(404).json({ message: "Employee not found" });
+        }
+
+        // Check if role actually changed
+        if (existingUser.dbRole !== req.body.dbRole) {
+            // Determine the current collection model based on where it was found
+            let CurrentModel = existingAdmin ? Admin : (existingHR ? HR : Employee);
+            
+            // Determine the new collection model based on the requested dbRole
+            let NewModel;
+            if (req.body.dbRole === 'Admin') NewModel = Admin;
+            else if (req.body.dbRole === 'Human Resources') NewModel = HR;
+            else NewModel = Employee;
+
+            // Prepare the new document data, merging updates with existing data
+            const newUserData = { ...existingUser.toObject(), ...req.body };
+            
+            // We shouldn't change the _id itself if we can help it, 
+            // but creating a new document in a different collection allows maintaining the _id
+            const migratedUser = new NewModel(newUserData);
+            
+            // Save to new collection
+            updateResult = await migratedUser.save();
+            
+            // Delete from old collection
+            await CurrentModel.findByIdAndDelete(targetId);
+
+            return res.json({ message: "Role updated and user migrated successfully", user: updateResult });
+        }
+    }
+
+    // Standard update if dbRole didn't change or if it's not being modified
     const [adminUpdate, hrUpdate, empUpdate] = await Promise.all([
       Admin.findByIdAndUpdate(targetId, req.body, { new: true }),
       HR.findByIdAndUpdate(targetId, req.body, { new: true }),
@@ -114,6 +222,7 @@ router.put("/:id", verifyToken, async (req, res) => {
 
     res.json(updateResult);
   } catch (error) {
+    console.error("UPDATE ERROR:", error);
     res.status(500).json({ message: error.message });
   }
 });

@@ -61,11 +61,10 @@ function LoginPage(props) {
         department,
         phone,
         joinDate: new Date(),
-        estatus: "active"
+        estatus: "pending"
       });
-      console.log("Account created");
-      setIsLogin(true);
-      alert("Account created successfully! Please sign in.");
+      console.log("Application submitted");
+      navigate("/waiting", { state: { email } });
     } catch (err) {
       console.log("Account creation failed :", err);
       alert(err.response?.data?.message || "Registration failed");
@@ -97,6 +96,10 @@ function LoginPage(props) {
       const role = res.data.employee?.dbRole;
       navigate(role === "Employee" ? "/profile" : "/dashboard");
     } catch (err) {
+      if (err.response?.status === 403 && err.response?.data?.status === "pending") {
+        navigate("/waiting", { state: { email } });
+        return;
+      }
       console.log("Login failed :", err.response?.data || err.message);
       alert(err.response?.data?.message || "Login failed. Please check your credentials.");
     } finally {

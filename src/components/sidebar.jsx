@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, NavLink, useNavigate } from "react-router-dom"
-import { LayoutDashboard, Users, Building2, Info, MessageSquare, LogOut, UserCircle, X } from "lucide-react"
+import { LayoutDashboard, Users, Building2, Info, MessageSquare, LogOut, X, ClipboardList, UserCircle } from "lucide-react"
+import { getInitials } from '../utils/helpers';
 
 function Sidebar({ employees = [], isOpen, onClose }) {
     const navigate = useNavigate();
@@ -64,6 +65,7 @@ function Sidebar({ employees = [], isOpen, onClose }) {
         { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
         { to: "/employees", label: "Employees", icon: Users },
         { to: "/departments", label: "Departments", icon: Building2 },
+        { to: "/applications", label: "Applications", icon: ClipboardList },
     ];
 
     const employeeNavItems = [
@@ -146,7 +148,9 @@ function Sidebar({ employees = [], isOpen, onClose }) {
                             className="px-4 mb-3 py-4 rounded-xl liquid-glass cursor-pointer hover:bg-white/10 transition-all group"
                         >
                             <div className="flex items-center gap-3">
-                                <UserCircle className="size-10 text-slate-400 flex-shrink-0 group-hover:text-primary transition-colors" strokeWidth={1.5} />
+                                <div className="w-10 h-10 rounded-full bg-primary/20 flex flex-shrink-0 items-center justify-center text-primary font-bold border border-primary/30 shadow-[0_0_10px_rgba(124,59,237,0.3)]">
+                                    {getInitials(user?.name || "Admin User")}
+                                </div>
                                 <div className="overflow-hidden">
                                     <p className="text-sm text-white font-bold truncate">{user?.name || "Alex Morgan"}</p>
                                     <p className="text-xs text-slate-400 truncate">{user?.jobRole || "HR Manager"}</p>

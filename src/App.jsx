@@ -9,20 +9,22 @@ import Dashboard from './pages/dashboard'
 import Departments from './pages/departments'
 import Landing from './pages/landing.jsx'
 import EmployeeProfile from './pages/EmployeeProfile.jsx'
+import WaitingPage from './pages/WaitingPage.jsx'
+import Applications from './pages/Application&Task.jsx'
 
 
 function App() {
   const [employees, setEmployees] = useState([]);
   const [globalLoading, setGlobalLoading] = useState(true);
 
-  const fetchEmployees = async () => {
-    setGlobalLoading(true);
+  const fetchEmployees = async (silent = false) => {
+    if (!silent) setGlobalLoading(true);
     try {
       const data = await EmployeeData.getEmployees();
       setEmployees(data);
       return data;
     } finally {
-      setGlobalLoading(false);
+      if (!silent) setGlobalLoading(false);
     }
   };
 
@@ -73,6 +75,18 @@ function App() {
     const token = localStorage.getItem("token");
     if (token) {
       fetchEmployees();
+      
+      // Global polling for real-time updates every 10 seconds
+      const pollInterval = setInterval(() => {
+          const currentToken = localStorage.getItem("token");
+          if (currentToken) {
+              fetchEmployees(true); // silent fetch
+          } else {
+              clearInterval(pollInterval);
+          }
+      }, 10000);
+      
+      return () => clearInterval(pollInterval);
     } else {
       setGlobalLoading(false);
     }
@@ -85,6 +99,7 @@ function App() {
           {/* Public Pages (no sidebar) */}
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<LoginPage onLogin={fetchEmployees} />} />
+          <Route path="/waiting" element={<WaitingPage />} />
 
           {/* Dashboard Pages (with sidebar) */}
           <Route element={<DashboardLayout employees={employees} globalLoading={globalLoading} />}>
@@ -93,6 +108,7 @@ function App() {
             <Route path="/departments" element={<Departments employees={employees} />} />
             <Route path="/profile" element={<EmployeeProfile employees={employees} onEdit={editEmployee} />} />
             <Route path="/employee/:id" element={<EmployeeProfile employees={employees} onEdit={editEmployee} />} />
+            <Route path="/applications" element={<Applications />} />
           </Route>
         </Routes>
       </BrowserRouter>

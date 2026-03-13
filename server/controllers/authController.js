@@ -1,4 +1,5 @@
 import { Admin, HR, Employee } from "../models/Employee.js";
+import PendingUser from "../models/PendingUser.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -9,7 +10,7 @@ const getModelByRole = (role) => {
   return Employee;
 };
 
-// REGISTER
+// REGISTER — save to PendingUser collection
 const register = async (req, res) => {
   try {
     const {
@@ -21,24 +22,27 @@ const register = async (req, res) => {
       department,
       phone,
       joinDate,
-      estatus
     } = req.body;
 
-    // Check if employee exists in any collection
-    const [adminExist, hrExist, empExist] = await Promise.all([
+    // Check if user exists in any collection (including pending)
+    const [adminExist, hrExist, empExist, pendingExist] = await Promise.all([
       Admin.findOne({ email }),
       HR.findOne({ email }),
-      Employee.findOne({ email })
+      Employee.findOne({ email }),
+      PendingUser.findOne({ email })
     ]);
 
     if (adminExist || hrExist || empExist) {
       return res.status(400).json({ message: "Employee already exists" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const Model = getModelByRole(dbRole);
+    if (pendingExist) {
+      return res.status(400).json({ message: "An application with this email is already pending approval" });
+    }
 
-    const employee = new Model({
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const pendingUser = new PendingUser({
       name,
       email,
       password: hashedPassword,
@@ -47,12 +51,12 @@ const register = async (req, res) => {
       department,
       phone,
       joinDate,
-      estatus
+      estatus: "pending"
     });
 
-    await employee.save();
+    await pendingUser.save();
 
-    res.status(201).json({ message: "Employee registered successfully" });
+    res.status(201).json({ message: "Application submitted successfully! Please wait for approval." });
 
   } catch (error) {
     console.error("REGISTER ERROR:", error);
@@ -61,14 +65,23 @@ const register = async (req, res) => {
 };
 
 
-// LOGIN
+// LOGIN — check pending first, then actual collections
 const login = async (req, res) => {
 
   try {
 
     const { email, password } = req.body;
 
-    // Search across all collections
+    // Check if user is in pending collection
+    const pendingUser = await PendingUser.findOne({ email });
+    if (pendingUser) {
+      const validPendingPassword = await bcrypt.compare(password, pendingUser.password);
+      if (validPendingPassword) {
+        return res.status(403).json({ status: "pending", message: "Your account is pending approval by Admin/HR." });
+      }
+    }
+
+    // Search across all active collections
     const [admin, hr, employee] = await Promise.all([
         Admin.findOne({ email }),
         HR.findOne({ email }),
@@ -104,4 +117,35 @@ const login = async (req, res) => {
   }
 };
 
-export { register, login };
+const checkStatus = async (req, res) => {
+  try {
+    const { email } = req.params;
+
+    // 1. Check if user is still pending
+    const pendingUser = await PendingUser.findOne({ email });
+    if (pendingUser) {
+      return res.json({ status: "pending" });
+    }
+
+    // 2. Check if user is in an active collection (Approved)
+    const standardEmployee = await Employee.findOne({ email });
+    
+    // Check other collections too
+    let activeUser = standardEmployee;
+    if (!activeUser) activeUser = await Admin.findOne({ email });
+    if (!activeUser) activeUser = await HR.findOne({ email });
+
+    if (activeUser) {
+      return res.json({ status: "approved" });
+    }
+
+    // 3. User not found anywhere (likely rejected and deleted from pending)
+    return res.json({ status: "rejected" });
+
+  } catch (err) {
+    console.error("STATUS CHECK ERROR:", err);
+    res.status(500).json({ message: "Server error checking status" });
+  }
+};
+
+export { register, login, checkStatus };

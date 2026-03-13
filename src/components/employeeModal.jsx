@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 
-const emptyForm = { name: "", email: "", jobRole: "", department: "", estatus: "active", joinDate: "", phone: "" };
+const emptyForm = { name: "", email: "", jobRole: "", department: "", estatus: "active", joinDate: "", phone: "", dbRole: "Employee" };
 
-const EmployeeModal = ({ isOpen, onClose, onSave, employee }) => {
+const EmployeeModal = ({ isOpen, onClose, onSave, employee, currentUserRole }) => {
   const [form, setForm] = useState(emptyForm);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employee }) => {
       setForm({
         name: employee.name, email: employee.email, jobRole: employee.jobRole, department: employee.department, estatus: employee.estatus, joinDate: employee.joinDate
           ? new Date(employee.joinDate).toISOString().split("T")[0]
-          : "", phone: employee.phone
+          : "", phone: employee.phone, dbRole: employee.dbRole || "Employee"
       });
     } else {
       setForm(emptyForm);
@@ -61,6 +61,19 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employee }) => {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className={labelClass}>System Role ({currentUserRole === 'Admin' ? 'Editable' : 'Locked by Admin'})</label>
+              <select 
+                className={`${inputClass} ${currentUserRole !== 'Admin' ? 'bg-muted cursor-not-allowed opacity-70' : ''}`}
+                value={form.dbRole} 
+                onChange={(e) => setForm({ ...form, dbRole: e.target.value })}
+                disabled={currentUserRole !== 'Admin'}
+              >
+                <option value="Employee">Employee</option>
+                <option value="Human Resources">Human Resources</option>
+                <option value="Admin">Admin</option>
+              </select>
+            </div>
             <div>
               <label className={labelClass}>Phone</label>
               <input className={inputClass} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+1 555-0100" />

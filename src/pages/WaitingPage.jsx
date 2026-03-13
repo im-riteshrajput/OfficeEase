@@ -1,7 +1,39 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { API } from '../data/api';
 
 export default function WaitingPage() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const email = location.state?.email;
+    const [statusMessage, setStatusMessage] = useState("Processing profile data...");
+    
+    useEffect(() => {
+        if (!email) return;
+
+        const checkStatus = async () => {
+            try {
+                const res = await API.get(`/auth/status/${email}`);
+                if (res.data.status === 'approved') {
+                    setStatusMessage("Approved! Redirecting to login...");
+                    setTimeout(() => navigate('/login'), 2000);
+                } else if (res.data.status === 'rejected') {
+                    setStatusMessage("Application declined. Redirecting...");
+                    setTimeout(() => navigate('/login'), 3000);
+                }
+            } catch (error) {
+                console.error("Error checking account status:", error);
+            }
+        };
+
+        // Poll every 5 seconds
+        const intervalId = setInterval(checkStatus, 5000);
+
+        // Run once immediately
+        checkStatus();
+
+        return () => clearInterval(intervalId);
+    }, [email, navigate]);
     return (
         <div className="font-display bg-background-dark text-slate-100 min-h-screen flex flex-col relative overflow-hidden selection:bg-primary/30">
             {/* Background Orbs */}
@@ -14,11 +46,8 @@ export default function WaitingPage() {
                     <div className="w-10 h-10 rounded-xl bg-primary/20 border border-primary/30 flex items-center justify-center text-primary">
                         <span className="material-symbols-outlined">layers</span>
                     </div>
-                    <span className="text-2xl font-black tracking-tighter text-white neon-glow-purple">OREON</span>
+                    <span className="text-2xl font-black tracking-tighter text-white neon-glow-purple">OFFIFY</span>
                 </div>
-                <button className="w-12 h-12 rounded-full glass-input flex items-center justify-center text-slate-300 hover:bg-white/10 transition-colors">
-                    <span className="material-symbols-outlined">person</span>
-                </button>
             </header>
 
             {/* Main Content */}
@@ -37,7 +66,7 @@ export default function WaitingPage() {
                         Account Under Review
                     </h1>
                     <p className="text-slate-400 text-lg leading-relaxed mb-12 max-w-xl">
-                        Welcome to <strong className="text-white">OREON</strong>! Your profile is currently being reviewed by our Admin or HR team. You'll receive an email notification once your access is approved.
+                        Welcome to <strong className="text-white">OFFIFY</strong>! Your profile is currently being reviewed by our Admin or HR team. You'll receive an email notification once your access is approved.
                     </p>
 
                     {/* Progress Section */}
@@ -54,7 +83,7 @@ export default function WaitingPage() {
                         </div>
                         <div className="flex items-center justify-center gap-2 text-sm text-slate-400 font-medium">
                             <span className="material-symbols-outlined text-accent-teal text-base animate-spin">sync</span>
-                            Processing profile data...
+                            {statusMessage}
                         </div>
                     </div>
 
@@ -75,7 +104,7 @@ export default function WaitingPage() {
             {/* Footer */}
             <footer className="relative z-10 p-8 text-center">
                 <p className="text-xs font-bold text-slate-600 tracking-widest uppercase">
-                    © 2024 OREON ENTERPRISE. ALL SYSTEMS SECURE.
+                    © 2024 OFFIFY ENTERPRISE. ALL SYSTEMS SECURE.
                 </p>
             </footer>
         </div>

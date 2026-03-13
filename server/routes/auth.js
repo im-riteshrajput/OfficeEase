@@ -108,4 +108,39 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// STATUS CHECK (For Waiting Page Polling)
+router.get("/status/:email", async (req, res) => {
+  try {
+    const { email } = req.params;
+
+    // 1. Check if user is still pending
+    const PendingUser = (await import('../models/PendingUser.js')).default;
+    const pendingUser = await PendingUser.findOne({ email });
+    if (pendingUser) {
+      return res.json({ status: "pending" });
+    }
+
+    // 2. Check if user is in an active collection (Approved)
+    const Admin = (await import('../models/Employee.js')).Admin;
+    const HR = (await import('../models/Employee.js')).HR;
+    const standardEmployee = await Employee.findOne({ email });
+    
+    // Check other collections too
+    let activeUser = standardEmployee;
+    if (!activeUser && Admin) activeUser = await Admin.findOne({ email });
+    if (!activeUser && HR) activeUser = await HR.findOne({ email });
+
+    if (activeUser) {
+      return res.json({ status: "approved" });
+    }
+
+    // 3. User not found anywhere (likely rejected and deleted from pending)
+    return res.json({ status: "rejected" });
+
+  } catch (err) {
+    console.error("STATUS CHECK ERROR:", err);
+    res.status(500).json({ message: "Server error checking status" });
+  }
+});
+
 export default router;

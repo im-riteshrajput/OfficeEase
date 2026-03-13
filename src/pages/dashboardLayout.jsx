@@ -18,7 +18,7 @@ function DashboardLayout({ employees, globalLoading }) {
         if (storedUser) userRole = JSON.parse(storedUser)?.dbRole || "";
     } catch {}
 
-    const adminOnlyRoutes = ["/dashboard", "/employees", "/departments"];
+    const adminOnlyRoutes = ["/dashboard", "/employees", "/departments", "/applications"];
     if (userRole === "Employee" && adminOnlyRoutes.includes(location.pathname)) {
         return <Navigate to="/profile" replace />;
     }
