@@ -30,10 +30,7 @@ const userSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  altphone : {
-    type: Number,
-    required: false
-  },
+
   joinDate : {
     type: Date,
     required: true
@@ -41,6 +38,14 @@ const userSchema = new mongoose.Schema({
   estatus : {
     type: String,
     required: true
+  },
+  address : {
+    type: String,
+    required: false
+  },
+  skills : {
+    type: String,
+    required: false
   },
 },
 

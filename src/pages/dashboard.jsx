@@ -153,9 +153,9 @@ export default function Dashboard({ employees = [] }) {
       <div className="liquid-orb w-[500px] h-[500px] bg-primary top-[-10%] left-[-5%]"></div>
       <div className="liquid-orb w-[400px] h-[400px] bg-accent-teal bottom-[-10%] right-[-5%]"></div>
       <div className="liquid-orb w-[300px] h-[300px] bg-purple-900 top-[20%] right-[10%]"></div>
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen w-full min-w-0">
 
-        <main className="flex-1 ml-[260px] p-8 lg:p-12 overflow-y-auto">
+        <main className="flex-1 p-3 sm:p-8 lg:p-12 overflow-y-auto w-full min-w-0 overflow-x-hidden">
           <header className="mb-10">
             <h2 className="text-4xl font-black text-white tracking-tight neon-glow-purple">Dashboard</h2>
             <p className="text-slate-400 text-lg mt-2">Welcome back! Here's your team overview.</p>
@@ -212,20 +212,20 @@ export default function Dashboard({ employees = [] }) {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="glass-card p-8 rounded-xl">
-              <div className="flex justify-between items-center mb-8">
-                <h4 className="text-xl font-bold text-white">Department Breakdown</h4>
-                <MoreHorizontal className="text-slate-500 cursor-pointer hover:text-white transition-colors w-6 h-6" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 w-full min-w-0">
+            <div className="glass-card p-4 sm:p-8 rounded-xl w-full min-w-0">
+              <div className="flex justify-between items-center mb-6 sm:mb-8">
+                <h4 className="text-lg sm:text-xl font-bold text-white">Department Breakdown</h4>
+                <MoreHorizontal className="text-slate-500 cursor-pointer hover:text-white transition-colors w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
               </div>
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {departmentData.map((dept, idx) => (
                   <div key={dept.name} className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-slate-300 font-medium">{dept.name}</span>
-                      <span className="text-white font-bold">{dept.pct}%</span>
+                    <div className="flex justify-between text-xs sm:text-sm">
+                      <span className="text-slate-300 font-medium truncate pr-2">{dept.name}</span>
+                      <span className="text-white font-bold shrink-0">{dept.pct}%</span>
                     </div>
-                    <div className="h-3 w-full bg-white/5 rounded-full overflow-hidden">
+                    <div className="h-2 sm:h-3 w-full bg-white/5 rounded-full overflow-hidden">
                       <div className={`h-full bg-gradient-to-r ${colors[idx % colors.length].from} ${colors[idx % colors.length].to} rounded-full`} style={{ width: `${dept.pct}%` }}></div>
                     </div>
                   </div>
@@ -235,25 +235,27 @@ export default function Dashboard({ employees = [] }) {
                 )}
               </div>
             </div>
-            <div className="glass-card p-8 rounded-xl">
-              <div className="flex justify-between items-center mb-8">
-                <h4 className="text-xl font-bold text-white">Recent Hires</h4>
+            <div className="glass-card p-4 sm:p-8 rounded-xl w-full min-w-0">
+              <div className="flex justify-between items-center mb-6 sm:mb-8">
+                <h4 className="text-lg sm:text-xl font-bold text-white">Recent Hires</h4>
                 <button className="text-sm font-bold text-primary hover:text-primary/80 transition-colors">View All</button>
               </div>
-              <div className="space-y-5">
+              <div className="space-y-3 sm:space-y-5">
                 {recentHires.map((emp) => (
-                  <div key={emp._id || emp.email} className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-all cursor-pointer">
+                  <div key={emp._id || emp.email} className="flex items-center gap-2 sm:gap-4 p-2 sm:p-3 rounded-xl hover:bg-white/5 transition-all cursor-pointer">
                     <UserCircle
-                      className="w-12 h-12 rounded-full text-slate-400 flex-shrink-0"
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full text-slate-400 shrink-0"
                       strokeWidth={1.5}
                     />
-                    <div className="flex-1">
-                      <h5 className="text-white font-bold text-sm">{emp.name}</h5>
-                      <p className="text-slate-400 text-xs font-medium">{emp.jobRole || emp.role}</p>
+                    <div className="flex-1 min-w-0">
+                      <h5 className="text-white font-bold text-xs sm:text-sm truncate">{emp.name}</h5>
+                      <p className="text-slate-400 text-[10px] sm:text-xs font-medium truncate">{emp.jobRole || emp.role}</p>
                     </div>
-                    <div className="text-right">
-                      {emp.joinDate ? new Date(emp.joinDate?.$date || emp.joinDate).toLocaleDateString() : "N/A"}
-                      <p className="text-primary text-[10px] font-bold uppercase tracking-wider">{emp.department}</p>
+                    <div className="text-right shrink-0 ml-2">
+                      <p className="text-[10px] sm:text-sm text-white font-medium">
+                        {emp.joinDate ? new Date(emp.joinDate?.$date || emp.joinDate).toLocaleDateString() : "N/A"}
+                      </p>
+                      <p className="text-primary text-[8px] sm:text-[10px] font-bold uppercase tracking-wider truncate max-w-[60px] sm:max-w-none">{emp.department}</p>
                     </div>
                   </div>
                 ))}

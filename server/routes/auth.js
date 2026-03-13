@@ -18,7 +18,6 @@ router.post("/register", async (req, res) => {
             jobRole,
             department,
             phone,
-            altphone,
             joinDate,
             estatus
         } = req.body;
@@ -33,7 +32,6 @@ router.post("/register", async (req, res) => {
             jobRole,
             department,
             phone,
-            altphone,
             joinDate,
             estatus
         });

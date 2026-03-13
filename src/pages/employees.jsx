@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserPlus, Search, Filter, ChevronDown, MoreVertical, ChevronLeft, ChevronRight, Mail, UserCircle, Edit3 } from 'lucide-react';
+import { UserPlus, Search, Filter, ChevronDown, Trash2, ChevronLeft, ChevronRight, Mail, UserCircle } from 'lucide-react';
 import EmployeeModal from '../components/employeeModal.jsx';
 
 export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
@@ -31,10 +31,7 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
 
     const activeCount = employees.filter(e => e.estatus === 'active').length;
 
-    const handleEdit = (emp) => {
-        setEditingEmployee(emp);
-        setModalOpen(true);
-    };
+
 
     const handleSave = async (data) => {
         if (editingEmployee) {
@@ -46,40 +43,40 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
         setEditingEmployee(null);
     };
     return (
-        <div className="bg-background-dark font-display text-slate-100 min-h-screen overflow-x-hidden">
+        <div className="bg-background-dark font-display text-slate-100 min-h-[calc(100vh-64px)] overflow-x-hidden relative w-full">
             <div className="gradient-orb bg-primary top-[-10%] left-[-10%]"></div>
             <div className="gradient-orb bg-indigo-600 bottom-[-10%] right-[-10%]"></div>
-            <div className="flex min-h-screen w-full">
+            <div className="flex w-full min-w-0">
 
-                <main className="ml-72 flex-1 p-8 lg:p-12">
-                    <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-                        <div>
-                            <h2 className="text-4xl font-black text-white tracking-tight neon-glow-purple">Employees</h2>
-                            <p className="text-slate-400 text-lg mt-2">Manage your team members and their roles here.</p>
+                <main className="flex-1 p-3 sm:p-8 lg:p-12 w-full min-w-0 overflow-x-hidden">
+                    <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-10 w-full">
+                        <div className="min-w-0">
+                            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight neon-glow-purple truncate">Employees</h2>
+                            <p className="text-slate-400 text-sm sm:text-lg mt-1 sm:mt-2 line-clamp-2">Manage your team members and their roles here.</p>
                         </div>
                         <button
                             onClick={() => { setEditingEmployee(null); setModalOpen(true); }}
-                            className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-xl font-bold transition-all shadow-xl shadow-primary/30 hover:shadow-primary/40 active:scale-95"
+                            className="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold transition-all shadow-xl shadow-primary/30 hover:shadow-primary/40 active:scale-95 text-sm sm:text-base w-full sm:w-auto shrink-0"
                         >
-                            <UserPlus className="w-5 h-5" />
-                            Add Employee
+                            <UserPlus className="w-5 h-5 shrink-0" />
+                            <span>Add Employee</span>
                         </button>
                     </header>
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-8">
-                        <div className="md:col-span-8">
-                            <div className="relative group">
-                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-primary transition-colors" />
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-8 w-full">
+                        <div className="md:col-span-8 min-w-0 w-full">
+                            <div className="relative group w-full">
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-primary transition-colors shrink-0" />
                                 <input
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-slate-500"
-                                    placeholder="Search by name, email or employee ID..."
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-slate-500 text-sm sm:text-base text-ellipsis"
+                                    placeholder="Search employees..."
                                     type="text"
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
                                 />
                             </div>
                         </div>
-                        <div className="md:col-span-4">
-                            <div className="relative liquid-glass rounded-xl px-4 py-3 cursor-pointer group hover:bg-white/10 transition-colors">
+                        <div className="md:col-span-4 min-w-0 w-full">
+                            <div className="relative liquid-glass rounded-xl px-4 py-3 cursor-pointer group hover:bg-white/10 transition-colors w-full">
                                 <select
                                     value={department}
                                     onChange={(e) => setDepartment(e.target.value)}
@@ -100,7 +97,7 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
                     <div className="liquid-glass rounded-2xl overflow-hidden shadow-2xl">
                         <div className="overflow-x-auto">
                             {/* Grid */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-3 sm:p-6">
                                 {paginatedEmployees.map((employee) => {
                                     const statusConfig = {
                                         active: { label: "Active", color: "bg-emerald-500", text: "text-emerald-400" },
@@ -110,7 +107,7 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
                                     const status = statusConfig[employee.estatus] || statusConfig.active;
 
                                     return (
-                                        <div key={employee._id || employee.id} className="bg-[#252136]/50 border border-white/5 rounded-3xl p-6 flex flex-col items-center text-center relative overflow-hidden group hover:border-white/10 transition-colors">
+                                        <div key={employee._id || employee.id} className="bg-[#252136]/50 border border-white/5 rounded-3xl p-4 sm:p-6 flex flex-col items-center text-center relative overflow-hidden group hover:border-white/10 transition-colors">
                                             {/* Avatar */}
                                             <div className="relative mb-4">
                                                 <div className="w-24 h-24 rounded-full p-1 bg-gradient-to-b from-primary/50 to-transparent flex items-center justify-center">
@@ -120,34 +117,32 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
                                             </div>
 
                                             {/* Info */}
-                                            <h3 className="text-xl font-bold text-white mb-1">{employee.name}</h3>
-                                            <p className="text-primary text-sm font-medium mb-6">{employee.jobRole || 'Team Member'}</p>
+                                            <h3 className="text-xl font-bold text-white mb-1 w-full px-2 break-words leading-tight">{employee.name}</h3>
+                                            <p className="text-primary text-sm font-medium mb-6 w-full px-2 break-words leading-snug">{employee.jobRole || 'Team Member'}</p>
 
                                             {/* Status & Dept Block */}
-                                            <div className="w-full bg-[#1A1625] rounded-2xl p-4 flex items-center justify-between mb-6 border border-white/5">
-                                                <div className="text-left">
+                                            <div className="w-full bg-[#1A1625] rounded-2xl p-3 sm:p-4 flex items-center justify-between mb-6 border border-white/5 gap-3">
+                                                <div className="text-left shrink-0">
                                                     <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">STATUS</p>
                                                     <div className="flex items-center gap-1.5">
-                                                        <div className={`w-1.5 h-1.5 rounded-full ${status.color}`}></div>
+                                                        <div className={`w-1.5 h-1.5 rounded-full z-0 shrink-0 ${status.color}`}></div>
                                                         <span className={`text-xs font-medium ${status.text}`}>{status.label}</span>
                                                     </div>
                                                 </div>
-                                                <div className="text-right">
+                                                <div className="text-right min-w-0">
                                                     <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">DEPARTMENT</p>
-                                                    <p className="text-xs font-medium text-slate-300">{employee.department}</p>
+                                                    <p className="text-xs font-medium text-slate-300 truncate">{employee.department}</p>
                                                 </div>
                                             </div>
 
                                             {/* Actions */}
-                                            <div className="w-full flex items-center gap-3">
-                                                <button onClick={() => navigate(`/employee/${employee._id || employee.id}`)} className="flex-1 bg-[#2D2842] hover:bg-[#352F4D] text-white text-sm font-medium py-2.5 rounded-xl transition-colors">
+                                            <div className="w-full flex flex-col sm:flex-row items-center gap-3">
+                                                <button onClick={() => navigate(`/employee/${employee._id || employee.id}`)} className="w-full sm:flex-1 bg-[#2D2842] hover:bg-[#352F4D] text-white text-sm font-medium py-2.5 rounded-xl transition-colors">
                                                     View Profile
                                                 </button>
-                                                <button onClick={() => handleEdit(employee)} className="w-11 h-11 bg-primary/10 hover:bg-primary/20 flex items-center justify-center rounded-xl text-primary transition-colors" title="Edit">
-                                                    <Edit3 className="w-4 h-4" />
-                                                </button>
-                                                <button onClick={() => onDelete(employee._id || employee.id)} className="w-11 h-11 bg-rose-500/10 hover:bg-rose-500/20 flex items-center justify-center rounded-xl text-rose-500 transition-colors">
-                                                    <MoreVertical className="w-4 h-4" />
+                                                <button onClick={() => onDelete(employee._id || employee.id)} className="w-full sm:w-11 h-11 bg-rose-500/10 hover:bg-rose-500/20 flex items-center justify-center rounded-xl text-rose-500 transition-colors" title="Delete">
+                                                    <Trash2 className="w-4 h-4" />
+                                                    <span className="sm:hidden ml-2 font-medium text-sm">Delete Employee</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -155,11 +150,11 @@ export default function Employees({ employees = [], onAdd, onEdit, onDelete }) {
                                 })}
                             </div>
                         </div>
-                        <div className="px-6 py-4 flex items-center justify-between border-t border-white/5">
-                            <p className="text-xs text-slate-500">
+                        <div className="px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-4 border-t border-white/5 shrink-0">
+                            <p className="text-[10px] sm:text-xs text-slate-500 text-center sm:text-left">
                                 Showing <span className="text-slate-300 font-bold">{paginatedEmployees.length}</span> of <span className="text-slate-300 font-bold">{filtered.length}</span> results
                             </p>
-                            <div className="flex gap-2">
+                            <div className="flex flex-wrap justify-center gap-2">
                                 <button
                                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                                     disabled={currentPage === 1}
