@@ -73,6 +73,10 @@ export default function EmployeeProfile({ employees = [], onEdit }) {
     };
 
     const handleEditSave = async () => {
+        if (editForm.phone && editForm.phone.toString().length !== 10) {
+            alert("Phone number must be exactly 10 digits");
+            return;
+        }
         const updated = { ...profileData, ...editForm };
         
         try {
@@ -235,8 +239,12 @@ export default function EmployeeProfile({ employees = [], onEdit }) {
                                 {editing ? (
                                     <input
                                         className="text-white font-medium bg-white/5 border border-white/10 rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-primary/50 w-full"
+                                        maxLength={10}
                                         value={editForm.phone}
-                                        onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
+                                        onChange={(e) => {
+                                            const val = e.target.value.replace(/\D/g, "");
+                                            if (val.length <= 10) setEditForm({ ...editForm, phone: val });
+                                        }}
                                     />
                                 ) : (
                                     <p className="text-white font-medium">{profileData.phone || "Not provided"}</p>

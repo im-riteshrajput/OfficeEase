@@ -1,11 +1,13 @@
 import React from 'react'
 import { Link, NavLink, useNavigate } from "react-router-dom"
-import { LayoutDashboard, Users, Building2, Info, MessageSquare, LogOut, X, ClipboardList, UserCircle } from "lucide-react"
+import { LayoutDashboard, Users, Building2, Info, MessageSquare, LogOut, X, ClipboardList, ClipboardCheck, UserCircle } from "lucide-react"
 import { getInitials } from '../utils/helpers';
+import LogoutConfirmModal from './logoutConfirmModal';
 
 function Sidebar({ employees = [], isOpen, onClose }) {
     const navigate = useNavigate();
     const [user, setUser] = React.useState(null);
+    const [showLogoutConfirm, setShowLogoutConfirm] = React.useState(false);
 
     React.useEffect(() => {
         const fetchUser = () => {
@@ -47,7 +49,11 @@ function Sidebar({ employees = [], isOpen, onClose }) {
         fetchUser();
     }, [employees]);
 
-    const handleLogout = () => {
+    const handleLogoutClick = () => {
+        setShowLogoutConfirm(true);
+    };
+
+    const confirmLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         navigate("/login");
@@ -66,10 +72,12 @@ function Sidebar({ employees = [], isOpen, onClose }) {
         { to: "/employees", label: "Employees", icon: Users },
         { to: "/departments", label: "Departments", icon: Building2 },
         { to: "/applications", label: "Applications", icon: ClipboardList },
+        { to: "/tasks", label: "Tasks", icon: ClipboardCheck },
     ];
 
     const employeeNavItems = [
         { to: "/profile", label: "My Profile", icon: UserCircle },
+        { to: "/my-tasks", label: "My Tasks", icon: ClipboardCheck },
     ];
 
     const navItems = isEmployee ? employeeNavItems : adminNavItems;
@@ -159,14 +167,20 @@ function Sidebar({ employees = [], isOpen, onClose }) {
                         </div>
                     )}
                     <button
-                        onClick={handleLogout}
-                        className="w-full flex items-center justify-center gap-2 bg-accent-green/20 hover:bg-accent-green/30 text-accent-green border border-accent-green/30 py-3 rounded-xl transition-all font-bold text-sm"
+                        onClick={handleLogoutClick}
+                        className="w-full flex items-center justify-center gap-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 border border-rose-500/30 py-3 rounded-xl transition-all font-bold text-sm"
                     >
                         <LogOut className="w-5 h-5" />
                         Logout
                     </button>
                 </div>
             </aside>
+
+            <LogoutConfirmModal 
+                isOpen={showLogoutConfirm} 
+                onClose={() => setShowLogoutConfirm(false)} 
+                onConfirm={confirmLogout} 
+            />
         </>
     )
 }

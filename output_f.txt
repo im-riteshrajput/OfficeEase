@@ -1,0 +1,30 @@
+
+⢰⡾⢶⣤⡀⠀⠀⣀⣴⠾⢶⡂⠀⠀⢠⣤⣤⣤⣤⣤⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀⢀⣠⣤⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣤⠀⢀⡀⠀⠀⠀⠀⠀⠀
+⢽⡃⠀⢈⣛⡷⣾⣙⠁⠀⢼⡏⠀⠀⠈⠈⢸⡿⠁⢡⣵⢴⣤⡄⢀⡴⠴⣤⡄⣦⣿⣷⡄⢾⣏⣀⡈⠛⠣⣦⣄⣴⣴⣤⡀⣴⣄⣤⡦⣰⡵⢰⣽⣿⡄⢀⣴⡴⣤⡄
+⢹⣇⣶⠟⠋⠁⠈⠛⠷⢆⣘⠃⠀⠀⠀⠀⢽⡇⢠⣿⢦⢦⠾⡗⠹⢿⣶⣬⡁⢨⣿⠀⠀⡈⠙⠛⠻⣿⡄⣺⡏⠀⠀⢽⡇⢸⣿⠀⠀⣻⡇⠀⣿⠅⢠⣿⢧⠦⡾⠿
+⠀⠉⠲⢶⣤⣀⣄⣴⠾⠛⠁⠀⠀⠀⠀⠠⢿⠃⠈⠿⡦⡦⠶⠂⠷⡦⡦⠿⠁⠼⢷⢴⠘⠿⡶⡴⡴⠟⠀⣾⡿⢦⠾⠟⠁⢸⠟⠀⠀⡿⠃⠐⡿⢵⠈⠿⡦⡦⠶⠃
+⠀⠀⠀⠀⠈⠉⠉⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢐⣿⠀⠀⠀⠀⠀⠀⠀⠀
+
+Starting test execution...
+Proxy port: 53992
+
+[1m[32mRunning tests...[0m [32mThis process may take anywhere from several minutes up to 15 minutes to complete.[0m
+
+[1mPlease ensure:[0m
+• Your local servers are running and reachable
+• Your internet connection remains stable throughout the process
+
+Tunnel started successfully! Proxy URL: http://6554e7fb-ef28-4dcd-8791-4f755675dd4d:sFJbwm5nNUSYoXiqGPrunughXLCo3PPu@tun.testsprite.com:8080
+[2026-03-14T11:47:34.515Z] [ERROR] checkPortListening tcp timeout: 5173 localhost
+file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:77932
+	        onCompromised: (err) => { throw err; },
+	                                  ^
+
+Error: Unable to update lock within the stale threshold
+    at file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:77855:26
+    at callback (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:57543:21)
+    at FSReqCallback.oncomplete (node:fs:195:5) {
+  code: 'ECOMPROMISED'
+}
+
+Node.js v24.13.0

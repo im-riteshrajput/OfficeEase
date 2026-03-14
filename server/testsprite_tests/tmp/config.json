@@ -1,0 +1,19 @@
+{
+  "status": "commited",
+  "type": "backend",
+  "scope": "codebase",
+  "localEndpoint": "http://127.0.0.1:5001",
+  "backendAuthType": "public",
+  "executionArgs": {
+    "projectName": "server",
+    "projectPath": "c:\\ritesh_new\\internship\\react projects\\react+backend\\frontend\\server",
+    "testIds": [],
+    "additionalInstruction": "",
+    "serverMode": "development",
+    "envs": {
+      "API_KEY": "sk-user-a5mJ4qHcmo40d2Fif-fMvWH_44KD1guAjUpK8wSJDtRKWOymyjhCo6mTLA2hpRAmVIs-mGaooRq4QrVWNJSoC2P4GOgWCrmNRoB42gUdU7jJF5kEiWxyCBU6VEKXkKwv3Fk"
+    }
+  },
+  "serverPort": 51072,
+  "proxy": "http://4a1dc50a-e930-48e2-8d4f-8269d56793be:L5hwWYS4olkHTG7ZtZJodJAQXksg8rsn@tun.testsprite.com:8080"
+}

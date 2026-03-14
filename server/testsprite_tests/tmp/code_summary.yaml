@@ -1,0 +1,61 @@
+version: "2"
+type: backend
+tech_stack:
+  - nodejs
+  - express
+  - mongodb
+  - mongoose
+routes:
+  - path: /api/auth/register
+    method: POST
+    auth_required: false
+    description: User registration
+  - path: /api/auth/login
+    method: POST
+    auth_required: false
+    description: User login
+  - path: /api/auth/status/:email
+    method: GET
+    auth_required: false
+    description: Check user status
+  - path: /api/employees
+    method: GET
+    auth_required: true
+    description: Get all employees (Access control applied)
+  - path: /api/employees/pending
+    method: GET
+    auth_required: true
+    description: Get pending users (Admin/HR only)
+  - path: /api/employees/:id/approve
+    method: PUT
+    auth_required: true
+    description: Approve pending user
+  - path: /api/tasks
+    method: GET
+    auth_required: true
+    description: Get all tasks
+  - path: /api/tasks/my-tasks
+    method: GET
+    auth_required: true
+    description: Get logged-in user tasks
+  - path: /api/tasks
+    method: POST
+    auth_required: true
+    description: Create/assign a new task
+features:
+  - name: Authentication
+    description: Register and login users, generate JWT tokens
+    files:
+      - routes/authRoutes.js
+      - controllers/authController.js
+  - name: Employee Management
+    description: CRUD operations for employees with role-based access control
+    files:
+      - routes/employeeRoutes.js
+      - models/Employee.js
+  - name: Task Management
+    description: Assign, track, and complete tasks
+    files:
+      - routes/taskRoutes.js
+      - models/Task.js
+known_limitations: []

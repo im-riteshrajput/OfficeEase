@@ -1,0 +1,38 @@
+
+⢰⡾⢶⣤⡀⠀⠀⣀⣴⠾⢶⡂⠀⠀⢠⣤⣤⣤⣤⣤⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀⢀⣠⣤⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣤⠀⢀⡀⠀⠀⠀⠀⠀⠀
+⢽⡃⠀⢈⣛⡷⣾⣙⠁⠀⢼⡏⠀⠀⠈⠈⢸⡿⠁⢡⣵⢴⣤⡄⢀⡴⠴⣤⡄⣦⣿⣷⡄⢾⣏⣀⡈⠛⠣⣦⣄⣴⣴⣤⡀⣴⣄⣤⡦⣰⡵⢰⣽⣿⡄⢀⣴⡴⣤⡄
+⢹⣇⣶⠟⠋⠁⠈⠛⠷⢆⣘⠃⠀⠀⠀⠀⢽⡇⢠⣿⢦⢦⠾⡗⠹⢿⣶⣬⡁⢨⣿⠀⠀⡈⠙⠛⠻⣿⡄⣺⡏⠀⠀⢽⡇⢸⣿⠀⠀⣻⡇⠀⣿⠅⢠⣿⢧⠦⡾⠿
+⠀⠉⠲⢶⣤⣀⣄⣴⠾⠛⠁⠀⠀⠀⠀⠠⢿⠃⠈⠿⡦⡦⠶⠂⠷⡦⡦⠿⠁⠼⢷⢴⠘⠿⡶⡴⡴⠟⠀⣾⡿⢦⠾⠟⠁⢸⠟⠀⠀⡿⠃⠐⡿⢵⠈⠿⡦⡦⠶⠃
+⠀⠀⠀⠀⠈⠉⠉⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢐⣿⠀⠀⠀⠀⠀⠀⠀⠀
+
+Starting test execution...
+Proxy port: 63526
+
+[1m[32mRunning tests...[0m [32mThis process may take anywhere from several minutes up to 15 minutes to complete.[0m
+
+[1mPlease ensure:[0m
+• Your local servers are running and reachable
+• Your internet connection remains stable throughout the process
+
+Tunnel started successfully! Proxy URL: http://7e86bb0a-da19-4d33-b410-ed38d507a005:SygMKirnU32gMHOCq5ypGwmZOqxnZCJs@tun.testsprite.com:8080
+[2026-03-14T11:46:13.186Z] [WARN] Tunnel probe attempt 1 failed: Request path contains unescaped characters — retrying in 3s...
+[31mTest execution failed:[0m Error: Failed to generate and execute tests: TypeError [ERR_UNESCAPED_CHARACTERS]: Request path contains unescaped characters
+    at new ClientRequest (node:_http_client:239:13)
+    at Module.request (node:http:102:10)
+    at status (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:103976:34)
+    at new Promise (<anonymous>)
+    at probeThroughTunnel (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:103971:34)
+    at runNextTicks (node:internal/process/task_queues:64:5)
+    at listOnTimeout (node:internal/timers:567:9)
+    at process.processTimers (node:internal/timers:541:7)
+    at async _generateCodeAndExecute (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:136286:13)
+    at async file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:135769:24
+    at _generateCodeAndExecute (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:136522:15)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at runNextTicks (node:internal/process/task_queues:68:3)
+    at listOnTimeout (node:internal/timers:567:9)
+    at process.processTimers (node:internal/timers:541:7)
+    at async file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:135769:24
+    at async Command.<anonymous> (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:141075:9)
+    at async Command.parseAsync (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:139335:6)
+    at async main (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:141279:9)

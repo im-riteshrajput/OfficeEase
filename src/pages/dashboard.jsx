@@ -217,7 +217,7 @@ export default function Dashboard({ employees = [] }) {
             <div className="glass-card p-4 sm:p-8 rounded-xl w-full min-w-0">
               <div className="flex justify-between items-center mb-6 sm:mb-8">
                 <h4 className="text-lg sm:text-xl font-bold text-white">Department Breakdown</h4>
-                <MoreHorizontal className="text-slate-500 cursor-pointer hover:text-white transition-colors w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
+                {/* <MoreHorizontal className="text-slate-500 cursor-pointer hover:text-white transition-colors w-5 h-5 sm:w-6 sm:h-6 shrink-0" /> */}
               </div>
               <div className="space-y-4 sm:space-y-6">
                 {departmentData.map((dept, idx) => (
@@ -239,7 +239,7 @@ export default function Dashboard({ employees = [] }) {
             <div className="glass-card p-4 sm:p-8 rounded-xl w-full min-w-0">
               <div className="flex justify-between items-center mb-6 sm:mb-8">
                 <h4 className="text-lg sm:text-xl font-bold text-white">Recent Hires</h4>
-                <button className="text-sm font-bold text-primary hover:text-primary/80 transition-colors">View All</button>
+                {/* <button className="text-sm font-bold text-primary hover:text-primary/80 transition-colors">View All</button> */}
               </div>
               <div className="space-y-3 sm:space-y-5">
                 {recentHires.map((emp) => (

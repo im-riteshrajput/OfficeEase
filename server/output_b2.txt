@@ -1,0 +1,67 @@
+
+⢰⡾⢶⣤⡀⠀⠀⣀⣴⠾⢶⡂⠀⠀⢠⣤⣤⣤⣤⣤⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀⢀⣠⣤⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣤⠀⢀⡀⠀⠀⠀⠀⠀⠀
+⢽⡃⠀⢈⣛⡷⣾⣙⠁⠀⢼⡏⠀⠀⠈⠈⢸⡿⠁⢡⣵⢴⣤⡄⢀⡴⠴⣤⡄⣦⣿⣷⡄⢾⣏⣀⡈⠛⠣⣦⣄⣴⣴⣤⡀⣴⣄⣤⡦⣰⡵⢰⣽⣿⡄⢀⣴⡴⣤⡄
+⢹⣇⣶⠟⠋⠁⠈⠛⠷⢆⣘⠃⠀⠀⠀⠀⢽⡇⢠⣿⢦⢦⠾⡗⠹⢿⣶⣬⡁⢨⣿⠀⠀⡈⠙⠛⠻⣿⡄⣺⡏⠀⠀⢽⡇⢸⣿⠀⠀⣻⡇⠀⣿⠅⢠⣿⢧⠦⡾⠿
+⠀⠉⠲⢶⣤⣀⣄⣴⠾⠛⠁⠀⠀⠀⠀⠠⢿⠃⠈⠿⡦⡦⠶⠂⠷⡦⡦⠿⠁⠼⢷⢴⠘⠿⡶⡴⡴⠟⠀⣾⡿⢦⠾⠟⠁⢸⠟⠀⠀⡿⠃⠐⡿⢵⠈⠿⡦⡦⠶⠃
+⠀⠀⠀⠀⠈⠉⠉⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢐⣿⠀⠀⠀⠀⠀⠀⠀⠀
+
+Starting test execution...
+[2026-03-14T12:01:26.839Z] [ERROR] checkPortListening tcp error: 5000 127.0.0.1
+Error: connect ECONNREFUSED 127.0.0.1:5000
+[2026-03-14T12:01:27.345Z] [ERROR] checkPortListening tcp error: 5000 127.0.0.1
+Error: connect ECONNREFUSED 127.0.0.1:5000
+[2026-03-14T12:01:27.861Z] [ERROR] checkPortListening tcp error: 5000 127.0.0.1
+Error: connect ECONNREFUSED 127.0.0.1:5000
+[2026-03-14T12:01:28.378Z] [ERROR] checkPortListening tcp error: 5000 127.0.0.1
+Error: connect ECONNREFUSED 127.0.0.1:5000
+[2026-03-14T12:01:28.963Z] [ERROR] checkPortListening tcp error: 5000 localhost
+AggregateError
+[2026-03-14T12:01:28.902Z] [ERROR] checkPortListening http check failed: http://127.0.0.1:5000/ TypeError: fetch failed
+[2026-03-14T12:01:29.474Z] [ERROR] checkPortListening tcp error: 5000 localhost
+AggregateError
+[2026-03-14T12:01:28.902Z] [ERROR] checkPortListening failed (tcp + http): 5000 127.0.0.1
+[2026-03-14T12:01:29.990Z] [ERROR] checkPortListening tcp error: 5000 localhost
+AggregateError
+[2026-03-14T12:01:30.504Z] [ERROR] checkPortListening tcp error: 5000 localhost
+AggregateError
+[2026-03-14T12:01:31.017Z] [ERROR] checkPortListening tcp error: 5000 localhost
+AggregateError
+[2026-03-14T12:01:31.535Z] [ERROR] checkPortListening tcp error: 5000 localhost
+AggregateError
+[2026-03-14T12:01:32.045Z] [ERROR] checkPortListening tcp error: 5000 localhost
+AggregateError
+[2026-03-14T12:01:32.550Z] [ERROR] checkPortListening tcp error: 5000 localhost
+AggregateError
+[2026-03-14T12:01:33.064Z] [ERROR] checkPortListening tcp error: 5000 localhost
+AggregateError
+[2026-03-14T12:01:33.579Z] [ERROR] checkPortListening tcp error: 5000 localhost
+AggregateError
+[2026-03-14T12:01:34.094Z] [ERROR] checkPortListening tcp error: 5000 localhost
+AggregateError
+[2026-03-14T12:01:34.611Z] [ERROR] checkPortListening tcp error: 5000 localhost
+AggregateError
+[2026-03-14T12:01:35.126Z] [ERROR] checkPortListening tcp error: 5000 localhost
+AggregateError
+[2026-03-14T12:01:35.640Z] [ERROR] checkPortListening tcp error: 5000 localhost
+AggregateError
+[2026-03-14T12:01:36.157Z] [ERROR] checkPortListening tcp error: 5000 localhost
+AggregateError
+[2026-03-14T12:01:36.674Z] [ERROR] checkPortListening tcp error: 5000 localhost
+AggregateError
+[31mTest execution failed:[0m Error: Failed to generate and execute tests: McpTunnelError: Failed to set up testing tunnel: Because the local project is not running on port 5000.
+Step 1: Install all necessary dependencies for the local project.
+Step 2: Restart the local project.
+Step 3: Review and update the local port configuration if needed to ensure the project functions correctly.
+    at _startTunnel (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:134557:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async _generateCodeAndExecute (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:136276:23)
+    at async file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:135769:24
+    at async Command.<anonymous> (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:141075:9)
+    at async Command.parseAsync (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:139335:6)
+    at async main (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:141279:9)
+    at _generateCodeAndExecute (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:136522:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:135769:24
+    at async Command.<anonymous> (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:141075:9)
+    at async Command.parseAsync (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:139335:6)
+    at async main (file:///C:/Users/Ritesh%20Rajput/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:141279:9)

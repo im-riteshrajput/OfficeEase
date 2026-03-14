@@ -76,7 +76,16 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employee, currentUserRole }) =
             </div>
             <div>
               <label className={labelClass}>Phone</label>
-              <input className={inputClass} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+1 555-0100" />
+              <input 
+                className={inputClass} 
+                maxLength={10}
+                value={form.phone} 
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/g, "");
+                  if (val.length <= 10) setForm({ ...form, phone: val });
+                }} 
+                placeholder="0000000000" 
+              />
             </div>
             <div>
               <label className={labelClass}>Join Date</label>

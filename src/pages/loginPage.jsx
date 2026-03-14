@@ -42,6 +42,10 @@ function LoginPage(props) {
       alert("Please fill all required fields");
       return;
     }
+    if (phone.length !== 10) {
+      alert("Phone number must be exactly 10 digits");
+      return;
+    }
     if (password.length < 8) {
       alert("Password must be at least 8 characters");
       return;
@@ -172,8 +176,12 @@ function LoginPage(props) {
                         className="glass-input w-full h-14 pl-12 pr-4 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                         placeholder="0000000000"
                         type="tel"
+                        maxLength={10}
                         value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, "");
+                          if (val.length <= 10) setPhone(val);
+                        }}
                       />
                     </div>
                   </div>

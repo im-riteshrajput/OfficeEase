@@ -1,0 +1,91 @@
+version: "2"
+type: frontend
+tech_stack:
+  - react
+  - vite
+  - tailwindcss
+  - react-router-dom
+routes:
+  - path: /
+    file: src/pages/landing.jsx
+    auth_required: false
+    description: Landing page
+  - path: /login
+    file: src/pages/loginPage.jsx
+    auth_required: false
+    description: User login page
+  - path: /waiting
+    file: src/pages/WaitingPage.jsx
+    auth_required: false
+    description: Waiting page
+  - path: /dashboard
+    file: src/pages/dashboard.jsx
+    auth_required: true
+    description: Dashboard page
+  - path: /employees
+    file: src/pages/employees.jsx
+    auth_required: true
+    description: Employees management
+  - path: /departments
+    file: src/pages/departments.jsx
+    auth_required: true
+    description: Departments view
+  - path: /profile
+    file: src/pages/EmployeeProfile.jsx
+    auth_required: true
+    description: Employee profile
+  - path: /employee/:id
+    file: src/pages/EmployeeProfile.jsx
+    auth_required: true
+    description: Specific Employee Profile
+  - path: /applications
+    file: src/pages/Application.jsx
+    auth_required: true
+    description: Applications
+  - path: /tasks
+    file: src/pages/task.jsx
+    auth_required: true
+    description: Tasks page
+  - path: /assign-task
+    file: src/pages/assignTask.jsx
+    auth_required: true
+    description: Assign Task page
+  - path: /my-tasks
+    file: src/pages/employeeTask.jsx
+    auth_required: true
+    description: Employee Task page
+features:
+  - name: User Login
+    description: Login with email and password credentials
+    files:
+      - src/pages/loginPage.jsx
+    entry_route: /login
+    user_interactions:
+      - Fill email input field
+      - Fill password input field
+      - Click Login button to submit
+    api_calls:
+      - method: POST
+        endpoint: /api/employee/login
+    auth_required: false
+  - name: Dashboard
+    description: View overall dashboard stats, employee counts, department breakdown
+    files:
+      - src/pages/dashboard.jsx
+    entry_route: /dashboard
+    user_interactions:
+      - View stats
+    auth_required: true
+  - name: Add Employee
+    description: Admin or HR can add a new employee
+    files:
+      - src/pages/employees.jsx
+    entry_route: /employees
+    user_interactions:
+      - Fill add employee form
+      - Click save
+    api_calls:
+      - method: POST
+        endpoint: /api/employee
+    auth_required: true
+known_limitations: []

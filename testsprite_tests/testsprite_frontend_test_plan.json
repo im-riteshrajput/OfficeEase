@@ -1,0 +1,1690 @@
+[
+  {
+    "id": "TC001",
+    "title": "Successful login redirects user to Dashboard",
+    "description": "Verifies a user can log in with valid email and password and is redirected to the dashboard.",
+    "category": "User Login",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/login\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the Login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Dashboard\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Invalid credentials show inline authentication error on Login page",
+    "description": "Verifies an invalid email/password attempt shows an inline error and does not navigate away from the login page.",
+    "category": "User Login",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/login\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"invalid.user@example.com\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"WrongPassword123!\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the Login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/login\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Invalid\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Empty email and password prevents login and shows validation feedback",
+    "description": "Verifies submitting the login form with both fields empty keeps the user on the login page and shows visible validation feedback.",
+    "category": "User Login",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/login\""
+      },
+      {
+        "type": "action",
+        "description": "Click the Login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/login\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"required\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"email field\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"password field\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Password-only submission shows validation feedback for missing email",
+    "description": "Verifies submitting with only password filled keeps the user on the login page and shows missing email validation.",
+    "category": "User Login",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/login\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the Login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/login\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"email\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"required\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Login page UI elements are present and usable",
+    "description": "Verifies the login page renders the expected interactive elements for email/password login.",
+    "category": "User Login",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/login\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"email field\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"password field\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Login button\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Type \"test@example.com\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"test\" into the password field"
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Dashboard loads and shows overall stats and department breakdown (authenticated)",
+    "description": "Verifies an authenticated user can open the dashboard and see key stats and department breakdown content.",
+    "category": "Dashboard",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Dashboard\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an overall stats section is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a department breakdown section is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Navigate from Dashboard to Employees via Employees link/section",
+    "description": "Verifies the Employees navigation from the dashboard takes the user to the Employees management page.",
+    "category": "Dashboard",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Employees\" link or section on the dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/employees\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Employees\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Dashboard stats remain visible after scroll (basic rendering check)",
+    "description": "Verifies that key dashboard content remains present and visible after scrolling the page.",
+    "category": "Dashboard",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the bottom of the page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a department breakdown section is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an overall stats section is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Dashboard does not show login form elements after successful login",
+    "description": "Verifies the authenticated dashboard view is shown and login fields are not visible after logging in.",
+    "category": "Dashboard",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the email field is not visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the password field is not visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an overall stats section is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Add Employee - Create a new employee successfully and see it in the list",
+    "description": "Verifies an authenticated user can add a new employee and the new record appears in the employees list.",
+    "category": "Add Employee",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Employees\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Add Employee\" button"
+      },
+      {
+        "type": "action",
+        "description": "Fill add employee form with valid new employee details"
+      },
+      {
+        "type": "action",
+        "description": "Click save"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text for the new employee (such as the entered name or email) is visible in the employees list"
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Add Employee - Required field validation blocks save",
+    "description": "Verifies required field validation appears when attempting to save with missing required data.",
+    "category": "Add Employee",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Employees\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Add Employee\" button"
+      },
+      {
+        "type": "action",
+        "description": "Fill add employee form but leave at least one required field empty"
+      },
+      {
+        "type": "action",
+        "description": "Click save"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text indicating a validation error (for example, \"required\" or \"is required\") is visible on the page"
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Add Employee - Cancel/close add employee form does not create a record",
+    "description": "Verifies dismissing the add employee form does not add a new employee to the list.",
+    "category": "Add Employee",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Employees\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Add Employee\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Add Employee\" form is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Cancel\" or \"Close\" button in the add employee form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Add Employee\" form is not visible"
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Add Employee - Invalid email format shows validation error",
+    "description": "Verifies the add employee form validates email formatting and blocks save when invalid.",
+    "category": "Add Employee",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Employees\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Add Employee\" button"
+      },
+      {
+        "type": "action",
+        "description": "Fill add employee form with an invalid email format (for example, \"not-an-email\")"
+      },
+      {
+        "type": "action",
+        "description": "Click save"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text indicating an invalid email (for example, \"invalid email\") is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Add Employee - Save button prevents double submission",
+    "description": "Verifies clicking save multiple times does not create multiple visible duplicates in the employees list.",
+    "category": "Add Employee",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Employees\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Add Employee\" button"
+      },
+      {
+        "type": "action",
+        "description": "Fill add employee form with valid new employee details"
+      },
+      {
+        "type": "action",
+        "description": "Click save"
+      },
+      {
+        "type": "action",
+        "description": "Click save"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the new employee appears only once in the employees list"
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Open an employee profile from the Employees list",
+    "description": "Verifies an authenticated user can open a specific employee profile from the employees list and see profile details.",
+    "category": "View Employee Profile",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click \"Employees\" in the main navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/employees\""
+      },
+      {
+        "type": "action",
+        "description": "Click an employee entry in the employees list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Employee Profile\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Profile\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Employee profile page shows key employee details",
+    "description": "Verifies the employee profile page displays common profile fields (such as name and department) after opening from Employees list.",
+    "category": "View Employee Profile",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click \"Employees\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click an employee entry in the employees list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Name\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Department\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Email\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC017",
+    "title": "Employee profile page offers related actions",
+    "description": "Verifies the employee profile page displays related action controls (such as edit or assign task) when viewing an employee profile.",
+    "category": "View Employee Profile",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click \"Employees\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click an employee entry in the employees list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Assign Task\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Edit\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC018",
+    "title": "Authenticated user can reach Employees page from Dashboard navigation",
+    "description": "Verifies navigation to Employees works after login, supporting access to employee profiles from the list.",
+    "category": "View Employee Profile",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Employees\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Employees\" in the main navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/employees\""
+      }
+    ]
+  },
+  {
+    "id": "TC019",
+    "title": "View departments list and breakdown counts",
+    "description": "Verifies an authenticated user can open the Departments page and see a visible list of departments with employee counts/breakdown.",
+    "category": "Departments View",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Departments\" in the main navigation/menu"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/departments\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Departments\" page heading is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC020",
+    "title": "Departments page shows at least one department item with a count",
+    "description": "Verifies the departments list renders department items and shows a visible count/breakdown value alongside an item.",
+    "category": "Departments View",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Departments\" in the main navigation/menu"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"department list\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"employee count\" (or similar numeric count next to a department) is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC021",
+    "title": "Open a department to view its details or related employees list",
+    "description": "Verifies a user can click a department item and is taken to a details view or a filtered list related to that department.",
+    "category": "Departments View",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Departments\" in the main navigation/menu"
+      },
+      {
+        "type": "action",
+        "description": "Click on the first department item in the list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify either a department detail section is visible or a filtered employee list is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC022",
+    "title": "Department selection updates visible context on the Departments page",
+    "description": "Verifies clicking a department changes visible content (such as a selected department name, summary panel, or filtered results).",
+    "category": "Departments View",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Departments\" in the main navigation/menu"
+      },
+      {
+        "type": "action",
+        "description": "Click on a department item named \"Engineering\" if visible (otherwise click any clearly named department item)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text matching the selected department name is visible in the detail/summary area"
+      }
+    ]
+  },
+  {
+    "id": "TC023",
+    "title": "Departments page remains accessible from another authenticated page via navigation",
+    "description": "Verifies that an authenticated user can navigate to Departments from a different authenticated route using UI navigation.",
+    "category": "Departments View",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Employees\" in the main navigation/menu"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/employees\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Departments\" in the main navigation/menu"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/departments\""
+      }
+    ]
+  },
+  {
+    "id": "TC024",
+    "title": "Applications list displays with visible statuses",
+    "description": "Verifies an authenticated user can open Applications and see a list with status values visible.",
+    "category": "Applications",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click \"Applications\" in the main navigation menu"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/applications\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Applications\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC025",
+    "title": "Open an application entry to view its details",
+    "description": "Verifies an authenticated user can open an application from the list and see a details view.",
+    "category": "Applications",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click \"Applications\" in the main navigation menu"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/applications\""
+      },
+      {
+        "type": "action",
+        "description": "Click the first application entry in the applications list"
+      }
+    ]
+  },
+  {
+    "id": "TC026",
+    "title": "Applications page loads without empty-state crash",
+    "description": "Verifies the Applications page renders a visible, stable UI even if no rows are present.",
+    "category": "Applications",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click \"Applications\" in the main navigation menu"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/applications\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Applications list\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC027",
+    "title": "Applications page is reachable from direct authenticated navigation (session already established)",
+    "description": "Verifies that after a successful login, visiting Applications via in-app navigation consistently lands on the Applications page.",
+    "category": "Applications",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click \"Applications\" in the main navigation menu"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Applications\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/applications\""
+      }
+    ]
+  },
+  {
+    "id": "TC028",
+    "title": "View tasks list and status in Tasks (Manager View)",
+    "description": "Verifies a logged-in manager can open the Tasks page and see a list of tasks with visible status information.",
+    "category": "Tasks (Manager View)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Tasks\" navigation link/menu item"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/tasks\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Status\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC029",
+    "title": "Assign a new task and verify it appears in Tasks list",
+    "description": "Verifies a logged-in manager can assign a task and then see it listed on the Tasks page.",
+    "category": "Tasks (Manager View)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Assign Task\" navigation link/menu item"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/assign-task\""
+      },
+      {
+        "type": "action",
+        "description": "Fill \"E2E Task - Manager Assignment\" into the task title/name field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Assign\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Tasks\" navigation link/menu item"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/tasks\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"E2E Task - Manager Assignment\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC030",
+    "title": "Assign task with missing required field shows validation error",
+    "description": "Verifies the Assign Task form blocks submission and shows a visible validation message when required data is missing.",
+    "category": "Tasks (Manager View)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Assign Task\" navigation link/menu item"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/assign-task\""
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Assign\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"required\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC031",
+    "title": "Tasks page remains accessible after login via navigation",
+    "description": "Verifies that after logging in, the manager can reach Tasks via in-app navigation and the page content renders.",
+    "category": "Tasks (Manager View)",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Tasks\" navigation link/menu item"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Tasks\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/tasks\""
+      }
+    ]
+  },
+  {
+    "id": "TC032",
+    "title": "View assigned tasks list on My Tasks page",
+    "description": "Verifies that a logged-in employee can open My Tasks and see a visible list of assigned tasks.",
+    "category": "My Tasks (Employee View)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click the \"My Tasks\" navigation link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/my-tasks\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Tasks list\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC033",
+    "title": "Open a task from My Tasks and verify task details are shown",
+    "description": "Verifies that clicking a task from the My Tasks list opens a task details view for review.",
+    "category": "My Tasks (Employee View)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click the \"My Tasks\" navigation link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/my-tasks\""
+      },
+      {
+        "type": "action",
+        "description": "Click the first task in the tasks list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Task details\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC034",
+    "title": "Update task status from task details and see it reflected on My Tasks",
+    "description": "Verifies an employee can change a task status/progress and then see the updated status back on the My Tasks list.",
+    "category": "My Tasks (Employee View)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click the \"My Tasks\" navigation link"
+      },
+      {
+        "type": "action",
+        "description": "Click the first task in the tasks list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Task details\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Select \"In Progress\" from the task status dropdown"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Save\" or \"Update\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"In Progress\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC035",
+    "title": "Update task progress value and verify confirmation/updated value is visible",
+    "description": "Verifies an employee can update a task progress field and see the updated progress shown on screen.",
+    "category": "My Tasks (Employee View)",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click the \"My Tasks\" navigation link"
+      },
+      {
+        "type": "action",
+        "description": "Click the first task in the tasks list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Task details\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Type \"50\" into the progress field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Save\" or \"Update\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"50\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC036",
+    "title": "My Tasks page shows a friendly empty state when no tasks are assigned",
+    "description": "Verifies that if the employee has no assigned tasks, the My Tasks page shows an empty-state message instead of a broken/blank UI.",
+    "category": "My Tasks (Employee View)",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click the \"My Tasks\" navigation link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/my-tasks\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"No tasks\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC037",
+    "title": "Cancel out of task update without saving leaves status unchanged on the list",
+    "description": "Verifies that backing out of an edit (via a visible Cancel/Close control) does not apply changes to the task status shown in My Tasks.",
+    "category": "My Tasks (Employee View)",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"My Tasks\" navigation link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/my-tasks\""
+      },
+      {
+        "type": "action",
+        "description": "Click the first task in the tasks list"
+      },
+      {
+        "type": "action",
+        "description": "Select \"Completed\" from the task status dropdown"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Cancel\" or \"Close\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Completed\" is not visible"
+      }
+    ]
+  },
+  {
+    "id": "TC038",
+    "title": "View waiting page shows pending indicator/message",
+    "description": "Verifies the /waiting page displays a visible pending state such as a waiting message and/or spinner.",
+    "category": "Waiting / Pending State",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /waiting"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/waiting\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Waiting\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Pending\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC039",
+    "title": "Waiting page remains stable on refresh/reload-like revisit",
+    "description": "Verifies the waiting page consistently renders its pending state when revisited directly.",
+    "category": "Waiting / Pending State",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /waiting"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/waiting\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"spinner\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Please wait\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC040",
+    "title": "Login then manually visit waiting page",
+    "description": "Verifies an authenticated user can access /waiting and sees the same pending state UI.",
+    "category": "Waiting / Pending State",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email/username field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /waiting"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Waiting\" is visible"
+      }
+    ]
+  }
+]

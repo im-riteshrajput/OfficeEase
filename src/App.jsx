@@ -10,7 +10,10 @@ import Departments from './pages/departments'
 import Landing from './pages/landing.jsx'
 import EmployeeProfile from './pages/EmployeeProfile.jsx'
 import WaitingPage from './pages/WaitingPage.jsx'
-import Applications from './pages/Application&Task.jsx'
+import Applications from './pages/Application'
+import Tasks from './pages/task'
+import AssignTask from './pages/assignTask'
+import EmployeeTask from './pages/employeeTask'
 
 
 function App() {
@@ -75,17 +78,17 @@ function App() {
     const token = localStorage.getItem("token");
     if (token) {
       fetchEmployees();
-      
+
       // Global polling for real-time updates every 10 seconds
       const pollInterval = setInterval(() => {
-          const currentToken = localStorage.getItem("token");
-          if (currentToken) {
-              fetchEmployees(true); // silent fetch
-          } else {
-              clearInterval(pollInterval);
-          }
+        const currentToken = localStorage.getItem("token");
+        if (currentToken) {
+          fetchEmployees(true); // silent fetch
+        } else {
+          clearInterval(pollInterval);
+        }
       }, 10000);
-      
+
       return () => clearInterval(pollInterval);
     } else {
       setGlobalLoading(false);
@@ -109,6 +112,9 @@ function App() {
             <Route path="/profile" element={<EmployeeProfile employees={employees} onEdit={editEmployee} />} />
             <Route path="/employee/:id" element={<EmployeeProfile employees={employees} onEdit={editEmployee} />} />
             <Route path="/applications" element={<Applications />} />
+            <Route path="/tasks" element={<Tasks />} />
+            <Route path="/assign-task" element={<AssignTask />} />
+            <Route path="/my-tasks" element={<EmployeeTask />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,0 +1,20 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://127.0.0.1:5173",
+  "loginUser": "www.riteshsingh1259@gmail.com",
+  "loginPassword": "raju1111",
+  "executionArgs": {
+    "projectName": "frontend",
+    "projectPath": "c:\\ritesh_new\\internship\\react projects\\react+backend\\frontend",
+    "testIds": [],
+    "additionalInstruction": "",
+    "serverMode": "production",
+    "envs": {
+      "API_KEY": "sk-user-a5mJ4qHcmo40d2Fif-fMvWH_44KD1guAjUpK8wSJDtRKWOymyjhCo6mTLA2hpRAmVIs-mGaooRq4QrVWNJSoC2P4GOgWCrmNRoB42gUdU7jJF5kEiWxyCBU6VEKXkKwv3Fk"
+    }
+  },
+  "serverPort": 61326,
+  "proxy": "http://16977bc8-c39a-456a-8508-4ec9da5341d4:UuYAKtiFJoEKB5xjtX2jfONtIF2BIfZy@tun.testsprite.com:8080"
+}
