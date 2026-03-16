@@ -49,25 +49,20 @@ const userSchema = new mongoose.Schema({
   },
   employeeId : {
     type: String,
-    unique: true,
-    sparse: true
   },
-  // --- Attendance Configuration ---
-  shiftStart: { type: String, default: "09:00" },
-  shiftEnd: { type: String, default: "17:00" },
-  workingDaysPerWeek: { type: Number, default: 5 },
-  casualLeaves: { type: Number, default: 12 },
-  sickLeaves: { type: Number, default: 12 },
-  profilePhotoUrl: { type: String, required: false },
-  profilePhotoPublicId: { type: String, required: false }
+  profilePhotoUrl: {
+    type: String,
+    required: false
+  },
+  profilePhotoPublicId: {
+    type: String,
+    required: false
+  }
 },
 
 { timestamps: true }
 );
 
-const Admin = mongoose.model("Admin", userSchema, "admins");
-const HR = mongoose.model("HR", userSchema, "hr_staff");
-const Employee = mongoose.model("Employee", userSchema, "standard_employees");
+const PastMember = mongoose.model("PastMember", userSchema, "past_members");
 
-export { Admin, HR, Employee };
-export default Employee;
+export default PastMember;

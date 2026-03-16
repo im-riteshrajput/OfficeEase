@@ -24,6 +24,11 @@ const register = async (req, res) => {
       joinDate,
     } = req.body;
 
+    const emailRegex = /^.+?\.bimfrox@gmail\.com$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: "Only emails ending with .bimfrox@gmail.com are allowed." });
+    }
+
     // Check if user exists in any collection (including pending)
     const [adminExist, hrExist, empExist, pendingExist] = await Promise.all([
       Admin.findOne({ email }),
@@ -148,4 +153,45 @@ const checkStatus = async (req, res) => {
   }
 };
 
-export { register, login, checkStatus };
+const changePassword = async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const userId = req.user.id;
+
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({ message: "Both old and new passwords are required" });
+    }
+
+    // Find the user by ID across active collections
+    const [admin, hr, employee] = await Promise.all([
+      Admin.findById(userId),
+      HR.findById(userId),
+      Employee.findById(userId)
+    ]);
+
+    const user = admin || hr || employee;
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Verify current password
+    const validPassword = await bcrypt.compare(oldPassword, user.password);
+    if (!validPassword) {
+      return res.status(401).json({ message: "Incorrect current password" });
+    }
+
+    // Hash the new password and save
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedNewPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Password updated successfully" });
+
+  } catch (error) {
+    console.error("CHANGE PASSWORD ERROR:", error);
+    res.status(500).json({ message: "Server error during password change" });
+  }
+};
+
+export { register, login, checkStatus, changePassword };

@@ -47,6 +47,14 @@ const pendingUserSchema = new mongoose.Schema({
     type: String,
     required: false
   },
+  profilePhotoUrl: {
+    type: String,
+    required: false
+  },
+  profilePhotoPublicId: {
+    type: String,
+    required: false
+  }
 },
 
 { timestamps: true }
