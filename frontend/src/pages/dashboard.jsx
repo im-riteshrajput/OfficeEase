@@ -160,7 +160,7 @@ export default function Dashboard({ employees = [] }) {
             <h2 className="text-4xl font-black text-white tracking-tight neon-glow-purple">Dashboard</h2>
             <p className="text-slate-400 text-lg mt-2">Welcome back! Here's your team overview.</p>
           </header>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
             <div className="glass-card p-6 rounded-xl flex flex-col gap-4 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
                 <Users className="text-white w-14 h-14" />

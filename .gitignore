@@ -36,6 +36,9 @@ Thumbs.db
 
 # Project Specific / Temp Files
 **/testsprite_tests/
+testsprite_config.json
+.testsprite/
+run_testsprite.ps1
 **/output*.txt
 **/output*.log
 **/lint_output.txt
