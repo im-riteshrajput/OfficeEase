@@ -99,8 +99,12 @@ export default function Applications() {
                                     className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 sm:p-6 hover:bg-white/5 transition-colors gap-4"
                                 >
                                     <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-primary font-bold text-lg">
-                                            {getInitials(applicant.name)}
+                                        <div className="w-12 h-12 rounded-full bg-[#2d204a] border border-primary/30 flex items-center justify-center text-primary font-bold text-lg overflow-hidden">
+                                            {applicant.profilePhotoUrl ? (
+                                                <img src={applicant.profilePhotoUrl} alt={applicant.name} className="w-full h-full object-cover" />
+                                            ) : (
+                                                getInitials(applicant.name)
+                                            )}
                                         </div>
                                         <div className="min-w-0">
                                             <h3 className="text-white font-bold text-base truncate">{applicant.name}</h3>

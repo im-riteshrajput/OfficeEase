@@ -48,10 +48,14 @@ export default function Tasks() {
     const tabs = ['All', 'Pending', 'In Progress', 'Completed'];
     const filtered = tasks.filter(t => {
         const matchTab = activeTab === 'All' || t.status === activeTab;
+        const q = searchQuery.toLowerCase();
         const matchSearch = !searchQuery ||
-            t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            (t.assignees && t.assignees.some(a => a.name.toLowerCase().includes(searchQuery.toLowerCase()))) ||
-            (!t.assignees && t.assignedToName && t.assignedToName.toLowerCase().includes(searchQuery.toLowerCase()));
+            t.title.toLowerCase().includes(q) ||
+            (t.assignees && t.assignees.some(a => 
+                a.name.toLowerCase().includes(q) || 
+                (a.employeeId && a.employeeId.toLowerCase().includes(q))
+            )) ||
+            (!t.assignees && t.assignedToName && t.assignedToName.toLowerCase().includes(q));
         return matchTab && matchSearch;
     });
 
@@ -203,8 +207,12 @@ export default function Tasks() {
                                         <>
                                             <div className="flex -space-x-2">
                                                 {task.assignees.slice(0, 3).map((a, i) => (
-                                                    <div key={i} className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-[10px] font-bold border border-primary/30 ring-2 ring-[#1E1B2E]">
-                                                        {getInitials(a.name)}
+                                                    <div key={i} className="w-8 h-8 rounded-full bg-[#2d204a] flex items-center justify-center text-primary text-[10px] font-bold border border-primary/30 ring-2 ring-[#1E1B2E] overflow-hidden">
+                                                        {a.profilePhotoUrl ? (
+                                                            <img src={a.profilePhotoUrl} alt={a.name} className="w-full h-full object-cover" />
+                                                        ) : (
+                                                            getInitials(a.name)
+                                                        )}
                                                     </div>
                                                 ))}
                                                 {task.assignees.length > 3 && (
@@ -222,7 +230,7 @@ export default function Tasks() {
                                         </>
                                     ) : (
                                         <>
-                                            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold border border-primary/30">
+                                            <div className="w-8 h-8 rounded-full bg-[#2d204a] flex items-center justify-center text-primary text-xs font-bold border border-primary/30 overflow-hidden">
                                                 {getInitials(task.assignedToName || 'Unknown')}
                                             </div>
                                             <div>

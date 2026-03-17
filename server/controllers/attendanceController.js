@@ -20,9 +20,9 @@ const getTodayDateString = () => {
 // Helper to find user across all collections
 const findUserById = async (id) => {
   const [admin, hr, emp] = await Promise.all([
-    Admin.findById(id).select("name email department jobRole dbRole employeeId"),
-    HR.findById(id).select("name email department jobRole dbRole employeeId"),
-    Employee.findById(id).select("name email department jobRole dbRole employeeId"),
+    Admin.findById(id).select("name email department jobRole dbRole employeeId profilePhotoUrl"),
+    HR.findById(id).select("name email department jobRole dbRole employeeId profilePhotoUrl"),
+    Employee.findById(id).select("name email department jobRole dbRole employeeId profilePhotoUrl"),
   ]);
   return admin || hr || emp;
 };

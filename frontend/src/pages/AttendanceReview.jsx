@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { API } from '../data/api';
+import { getInitials } from '../utils/helpers';
 
 export default function AttendanceReview() {
     const navigate = useNavigate();
@@ -152,18 +153,21 @@ export default function AttendanceReview() {
 
     // --- Filter logic ---
     const filteredLogs = todayLogs.filter(log => {
-        const uName = log.user?.name || "";
-        return uName.toLowerCase().includes(searchQuery.toLowerCase());
+        const u = log.user || {};
+        const q = searchQuery.toLowerCase();
+        return (u.name || "").toLowerCase().includes(q) || (u.employeeId || "").toLowerCase().includes(q);
     });
     
     const filteredLeaves = allLeaves.filter(req => {
-        const uName = req.user?.name || "";
-        return uName.toLowerCase().includes(searchQuery.toLowerCase());
+        const u = req.user || {};
+        const q = searchQuery.toLowerCase();
+        return (u.name || "").toLowerCase().includes(q) || (u.employeeId || "").toLowerCase().includes(q);
     });
 
     const filteredRegs = allRegularizations.filter(req => {
-        const uName = req.user?.name || "";
-        return uName.toLowerCase().includes(searchQuery.toLowerCase());
+        const u = req.user || {};
+        const q = searchQuery.toLowerCase();
+        return (u.name || "").toLowerCase().includes(q) || (u.employeeId || "").toLowerCase().includes(q);
     });
 
     return (
@@ -337,8 +341,12 @@ export default function AttendanceReview() {
                                                 <tr key={log._id} className="hover:bg-white/[0.05] transition-colors">
                                                     <td className="px-6 py-4">
                                                         <div className="flex items-center gap-3">
-                                                            <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 p-0.5 shrink-0 overflow-hidden">
-                                                                <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${uName}`} alt={uName} className="w-full h-full rounded-full object-cover" />
+                                                            <div className="w-10 h-10 rounded-full bg-primary/20 border border-white/10 flex flex-shrink-0 items-center justify-center text-primary font-bold overflow-hidden">
+                                                                {log.user?.profilePhotoUrl ? (
+                                                                    <img src={log.user.profilePhotoUrl} alt={uName} className="w-full h-full object-cover" />
+                                                                ) : (
+                                                                    getInitials(uName)
+                                                                )}
                                                             </div>
                                                             <div className="overflow-hidden">
                                                                 <p className="font-bold text-white truncate">{uName}</p>
@@ -458,8 +466,12 @@ export default function AttendanceReview() {
                         </button>
                         
                         <div className="flex items-center gap-4 mb-6 pb-6 border-b border-white/10">
-                            <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 p-1 shrink-0">
-                                <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${selectedEmployee.name}`} alt={selectedEmployee.name} className="w-full h-full rounded-full object-cover" />
+                            <div className="w-16 h-16 rounded-full bg-primary/20 border border-white/10 flex flex-shrink-0 items-center justify-center text-primary font-bold text-xl overflow-hidden">
+                                {selectedEmployee.profilePhotoUrl ? (
+                                    <img src={selectedEmployee.profilePhotoUrl} alt={selectedEmployee.name} className="w-full h-full object-cover" />
+                                ) : (
+                                    getInitials(selectedEmployee.name)
+                                )}
                             </div>
                             <div>
                                 <h1 className="text-2xl font-bold text-white">{selectedEmployee.name}</h1>

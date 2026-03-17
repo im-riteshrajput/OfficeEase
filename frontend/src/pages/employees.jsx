@@ -47,7 +47,11 @@ export default function Employees({ employees = [], onEdit, onDelete }) {
     const currentList = viewingPast ? pastMembers : employees;
 
     const filtered = currentList.filter((e) => {
-        const matchesSearch = e.name.toLowerCase().includes(search.toLowerCase()) || e.email.toLowerCase().includes(search.toLowerCase()) || e.role?.toLowerCase().includes(search.toLowerCase());
+        const q = search.toLowerCase();
+        const matchesSearch = e.name.toLowerCase().includes(q) || 
+                             e.email.toLowerCase().includes(q) || 
+                             e.role?.toLowerCase().includes(q) ||
+                             (e.employeeId && e.employeeId.toLowerCase().includes(q));
         const matchesDept = department === "All" || e.department === department;
         return matchesSearch && matchesDept;
     });

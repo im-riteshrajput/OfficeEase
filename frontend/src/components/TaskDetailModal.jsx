@@ -101,14 +101,18 @@ export default function TaskDetailModal({ task, onClose }) {
                             <div className="flex flex-col gap-2 max-h-32 overflow-y-auto pr-2">
                                 {task.assignees ? task.assignees.map(a => (
                                     <div key={a.id} className="flex items-center gap-3">
-                                        <div className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-[10px] font-bold border border-primary/30 shrink-0">
-                                            {getInitials(a.name)}
+                                        <div className="w-7 h-7 rounded-full bg-[#2d204a] flex items-center justify-center text-primary text-[10px] font-bold border border-primary/30 shrink-0 overflow-hidden">
+                                            {a.profilePhotoUrl ? (
+                                                <img src={a.profilePhotoUrl} alt={a.name} className="w-full h-full object-cover" />
+                                            ) : (
+                                                getInitials(a.name)
+                                            )}
                                         </div>
                                         <p className="text-sm font-semibold text-white truncate">{a.name}</p>
                                     </div>
                                 )) : (
                                     <div className="flex items-center gap-3">
-                                        <div className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-[10px] font-bold border border-primary/30 shrink-0">
+                                        <div className="w-7 h-7 rounded-full bg-[#2d204a] flex items-center justify-center text-primary text-[10px] font-bold border border-primary/30 shrink-0 overflow-hidden">
                                             {getInitials(task.assignedToName || 'Unknown')}
                                         </div>
                                         <p className="text-sm font-semibold text-white truncate">{task.assignedToName || 'Unknown'}</p>
@@ -124,7 +128,7 @@ export default function TaskDetailModal({ task, onClose }) {
                                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Assigned By</span>
                             </div>
                             <div className="flex items-center gap-3">
-                                <div className="w-9 h-9 rounded-full bg-accent-teal/20 flex items-center justify-center text-accent-teal text-xs font-bold border border-accent-teal/30 shrink-0">
+                                <div className="w-9 h-9 rounded-full bg-[#2d204a] flex items-center justify-center text-accent-teal text-xs font-bold border border-accent-teal/30 shrink-0 overflow-hidden">
                                     {getInitials(task.assignedByName)}
                                 </div>
                                 <p className="text-sm font-semibold text-white truncate">{task.assignedByName}</p>

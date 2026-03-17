@@ -158,8 +158,12 @@ function Sidebar({ employees = [], isOpen, onClose }) {
                             className="px-4 mb-3 py-4 rounded-xl liquid-glass cursor-pointer hover:bg-white/10 transition-all group"
                         >
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-primary/20 flex flex-shrink-0 items-center justify-center text-primary font-bold border border-primary/30 shadow-[0_0_10px_rgba(124,59,237,0.3)]">
-                                    {getInitials(user?.name || "Admin User")}
+                                <div className="w-10 h-10 rounded-full bg-[#2d204a] flex flex-shrink-0 items-center justify-center text-primary font-bold border border-primary/30 shadow-[0_0_10px_rgba(124,59,237,0.3)] overflow-hidden">
+                                    {user?.profilePhotoUrl ? (
+                                        <img src={user.profilePhotoUrl} alt={user.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        getInitials(user?.name || "Admin User")
+                                    )}
                                 </div>
                                 <div className="overflow-hidden">
                                     <p className="text-sm text-white font-bold truncate">{user?.name || "Alex Morgan"}</p>

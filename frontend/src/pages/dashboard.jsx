@@ -232,8 +232,12 @@ export default function Dashboard({ employees = [] }) {
               <div className="space-y-3 sm:space-y-5">
                 {recentHires.map((emp) => (
                   <div key={emp._id || emp.email} className="flex items-center gap-2 sm:gap-4 p-2 sm:p-3 rounded-xl hover:bg-white/5 transition-all cursor-pointer">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/20 flex flex-shrink-0 items-center justify-center text-primary font-bold shadow-[0_0_10px_rgba(124,59,237,0.3)] shrink-0">
-                      {getInitials(emp.name)}
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#2d204a] flex flex-shrink-0 items-center justify-center text-primary font-bold shadow-[0_0_10px_rgba(124,59,237,0.3)] overflow-hidden">
+                      {emp.profilePhotoUrl ? (
+                        <img src={emp.profilePhotoUrl} alt={emp.name} className="w-full h-full object-cover" />
+                      ) : (
+                        getInitials(emp.name)
+                      )}
                     </div>
                     <div className="flex-1 min-w-0">
                       <h5 className="text-white font-bold text-xs sm:text-sm truncate">{emp.name}</h5>

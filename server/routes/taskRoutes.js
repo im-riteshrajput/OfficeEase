@@ -5,11 +5,36 @@ import { verifyToken, authorize } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
+// Helper to find user by ID for profile photo
+const findUserForTask = async (id) => {
+  const [admin, hr, emp] = await Promise.all([
+    Admin.findById(id).select("profilePhotoUrl employeeId"),
+    HR.findById(id).select("profilePhotoUrl employeeId"),
+    Employee.findById(id).select("profilePhotoUrl employeeId"),
+  ]);
+  return admin || hr || emp;
+};
+
+// Helper to enrich task assignees with profile photos
+const enrichTasks = async (tasks) => {
+  return Promise.all(tasks.map(async (task) => {
+    const taskObj = task.toObject();
+    taskObj.assignees = await Promise.all(
+      (taskObj.assignees || []).map(async (a) => {
+        const user = await findUserForTask(a.id);
+        return { ...a, profilePhotoUrl: user?.profilePhotoUrl || null, employeeId: user?.employeeId || null };
+      })
+    );
+    return taskObj;
+  }));
+};
+
 // GET all tasks (Admin/HR only)
 router.get("/", verifyToken, authorize(["Admin", "Human Resources"]), async (req, res) => {
   try {
     const tasks = await Task.find().sort({ createdAt: -1 });
-    res.json(tasks);
+    const enriched = await enrichTasks(tasks);
+    res.json(enriched);
   } catch (error) {
     console.error("FETCH TASKS ERROR:", error);
     res.status(500).json({ message: "Error fetching tasks" });
@@ -20,7 +45,8 @@ router.get("/", verifyToken, authorize(["Admin", "Human Resources"]), async (req
 router.get("/my-tasks", verifyToken, async (req, res) => {
   try {
     const tasks = await Task.find({ "assignees.id": req.user.id }).sort({ createdAt: -1 });
-    res.json(tasks);
+    const enriched = await enrichTasks(tasks);
+    res.json(enriched);
   } catch (error) {
     console.error("FETCH MY TASKS ERROR:", error);
     res.status(500).json({ message: "Error fetching your tasks" });

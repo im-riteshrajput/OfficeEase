@@ -1,5 +1,6 @@
-import { Building2, UserCircle } from "lucide-react";
+import { Building2 } from "lucide-react";
 import React from "react";
+import { getInitials } from "../utils/helpers";
 
 const deptList = [
   { name: "Engineering", color: "#7C3AED" },
@@ -50,12 +51,17 @@ export default function Departments({ employees = [] }) {
                   {/* Preview of members */}
                   <div className="mt-2 flex -space-x-3 overflow-hidden p-1">
                     {deptEmployees.slice(0, 5).map((emp, idx) => (
-                      <UserCircle
-                        key={emp._id || idx}
-                        className="inline-block h-8 w-8 rounded-full ring-2 ring-background-dark text-slate-400"
-                        strokeWidth={1.5}
+                      <div 
+                        key={emp._id || idx} 
+                        className="inline-flex h-8 w-8 rounded-full ring-2 ring-background-dark overflow-hidden bg-[#2d204a] items-center justify-center text-[10px] font-bold text-primary shrink-0"
                         title={emp.name}
-                      />
+                      >
+                        {emp.profilePhotoUrl ? (
+                          <img src={emp.profilePhotoUrl} alt={emp.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <span>{getInitials(emp.name)}</span>
+                        )}
+                      </div>
                     ))}
                     {deptEmployees.length > 5 && (
                       <div className="flex items-center justify-center h-8 w-8 rounded-full ring-2 ring-background-dark bg-white/10 text-xs font-bold text-white shadow-inner">

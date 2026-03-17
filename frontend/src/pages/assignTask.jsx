@@ -58,7 +58,7 @@ export default function AssignTask() {
             }
             return {
                 ...prev,
-                selectedEmployees: [...prev.selectedEmployees, { id: emp._id, name: emp.name, jobRole: emp.jobRole }]
+                selectedEmployees: [...prev.selectedEmployees, { id: emp._id, name: emp.name, jobRole: emp.jobRole, profilePhotoUrl: emp.profilePhotoUrl }]
             };
         });
     };
@@ -71,7 +71,7 @@ export default function AssignTask() {
     };
 
     const selectAll = () => {
-        const allEmp = filteredEmployees.map(emp => ({ id: emp._id, name: emp.name, jobRole: emp.jobRole }));
+        const allEmp = filteredEmployees.map(emp => ({ id: emp._id, name: emp.name, jobRole: emp.jobRole, profilePhotoUrl: emp.profilePhotoUrl }));
         setForm(prev => ({ ...prev, selectedEmployees: allEmp }));
     };
 
@@ -79,10 +79,12 @@ export default function AssignTask() {
         setForm(prev => ({ ...prev, selectedEmployees: [] }));
     };
 
-    const filteredEmployees = employees.filter(emp =>
-        emp.name.toLowerCase().includes(empSearch.toLowerCase()) ||
-        emp.jobRole?.toLowerCase().includes(empSearch.toLowerCase())
-    );
+    const filteredEmployees = employees.filter(emp => {
+        const q = empSearch.toLowerCase();
+        return emp.name.toLowerCase().includes(q) ||
+               emp.jobRole?.toLowerCase().includes(q) ||
+               (emp.employeeId && emp.employeeId.toLowerCase().includes(q));
+    });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -191,8 +193,12 @@ export default function AssignTask() {
                                             key={emp.id}
                                             className="inline-flex items-center gap-1.5 pl-1.5 pr-2 py-1 rounded-lg bg-primary/15 border border-primary/25 text-primary text-xs font-semibold"
                                         >
-                                            <span className="w-5 h-5 rounded-full bg-primary/30 flex items-center justify-center text-[9px] font-bold text-white">
-                                                {getInitials(emp.name)}
+                                            <span className="w-5 h-5 rounded-full bg-[#2d204a] flex items-center justify-center text-[9px] font-bold text-white overflow-hidden">
+                                                {emp.profilePhotoUrl ? (
+                                                    <img src={emp.profilePhotoUrl} alt={emp.name} className="w-full h-full object-cover" />
+                                                ) : (
+                                                    getInitials(emp.name)
+                                                )}
                                             </span>
                                             {emp.name}
                                             <button
@@ -289,8 +295,12 @@ export default function AssignTask() {
                                                                 )}
                                                             </div>
                                                             {/* Avatar */}
-                                                            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold border border-primary/30 shrink-0">
-                                                                {getInitials(emp.name)}
+                                                            <div className="w-8 h-8 rounded-full bg-[#2d204a] flex items-center justify-center text-primary text-xs font-bold border border-primary/30 shrink-0 overflow-hidden">
+                                                                {emp.profilePhotoUrl ? (
+                                                                    <img src={emp.profilePhotoUrl} alt={emp.name} className="w-full h-full object-cover" />
+                                                                ) : (
+                                                                    getInitials(emp.name)
+                                                                )}
                                                             </div>
                                                             {/* Info */}
                                                             <div className="min-w-0 flex-1">
