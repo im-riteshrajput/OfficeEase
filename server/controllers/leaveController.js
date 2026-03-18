@@ -153,7 +153,7 @@ export const reviewLeave = async (req, res) => {
     leave.status = status;
     leave.reviewedBy = reviewerId;
     leave.reviewerName = reviewer?.name || "Unknown";
-    leave.reviewedAt = new Date();
+    leave.reviewedAt = new Date(); // UTC timestamp is fine for audit
     if (status === "Rejected" && rejectionReason) {
       leave.rejectionReason = rejectionReason;
     }

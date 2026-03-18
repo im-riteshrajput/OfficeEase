@@ -1,6 +1,7 @@
 import Attendance from "../models/Attendance.js";
 import Leave from "../models/Leave.js";
 import { Admin, HR, Employee } from "../models/Employee.js";
+import { getNowIST, getTodayIST, getISTYear } from "./istHelper.js";
 
 // Helper to find user across all collections to read their specific config
 export const getUserConfig = async (userId) => {
@@ -49,13 +50,13 @@ export async function calculateOvertimeHoursUser(userId, clockIn, clockOut) {
 /**
  * Get the Monday of the current week (start of week)
  */
-function getWeekStart(date = new Date()) {
-  const d = new Date(date);
-  const day = d.getDay();
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Monday
-  d.setDate(diff);
-  d.setHours(0, 0, 0, 0);
-  return d;
+function getWeekStart() {
+  const ist = getNowIST();
+  const day = ist.getUTCDay();
+  const diff = ist.getUTCDate() - day + (day === 0 ? -6 : 1); // Monday
+  ist.setUTCDate(diff);
+  ist.setUTCHours(0, 0, 0, 0);
+  return ist;
 }
 
 /**
@@ -63,8 +64,11 @@ function getWeekStart(date = new Date()) {
  */
 export async function calculateWeeklyHours(userId) {
   const weekStart = getWeekStart();
-  const weekStartStr = weekStart.toISOString().split("T")[0];
-  const today = new Date().toISOString().split("T")[0];
+  const year = weekStart.getUTCFullYear();
+  const month = String(weekStart.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(weekStart.getUTCDate()).padStart(2, "0");
+  const weekStartStr = `${year}-${month}-${day}`;
+  const today = getTodayIST();
 
   const logs = await Attendance.find({
     userId,
@@ -157,7 +161,7 @@ export async function getLeaveBalance(userId) {
     Unpaid: Infinity, // Unlimited unpaid
   };
 
-  const year = new Date().getFullYear();
+  const year = getISTYear();
   const startOfYear = `${year}-01-01`;
   const endOfYear = `${year}-12-31`;
 

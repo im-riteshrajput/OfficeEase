@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { API } from '../data/api';
+import { getTodayIST } from '../utils/istHelper';
 import { getInitials } from '../utils/helpers';
 import { 
     Fingerprint, Users, Clock, Calendar, BarChart3, 
@@ -21,7 +22,7 @@ export default function AttendanceReview() {
     const [allRegularizations, setAllRegularizations] = useState([]);
     
     // Filters
-    const [dateFilter, setDateFilter] = useState(new Date().toISOString().split('T')[0]);
+    const [dateFilter, setDateFilter] = useState(getTodayIST());
     const [searchQuery, setSearchQuery] = useState("");
     
     const [loading, setLoading] = useState(true);
@@ -122,7 +123,7 @@ export default function AttendanceReview() {
             const res = await API.put(`/leaves/${id}/review`, { status });
             if (res.data.success) {
                 fetchAllLeaves();
-                if (dateFilter === new Date().toISOString().split('T')[0]) fetchTeamStats(dateFilter);
+                if (dateFilter === getTodayIST()) fetchTeamStats(dateFilter);
             }
         } catch (err) { alert(err.response?.data?.message || "Error reviewing leave"); }
     };
@@ -142,10 +143,11 @@ export default function AttendanceReview() {
         setHistoryLoading(true);
         try {
             // Fetch last 30 days
-            const to = new Date().toISOString().split('T')[0];
+            const to = getTodayIST();
             const fromDate = new Date();
             fromDate.setDate(fromDate.getDate() - 30);
-            const from = fromDate.toISOString().split('T')[0];
+            const fromIST = new Date(fromDate.getTime() + 5.5 * 60 * 60 * 1000);
+            const from = `${fromIST.getUTCFullYear()}-${String(fromIST.getUTCMonth() + 1).padStart(2, '0')}-${String(fromIST.getUTCDate()).padStart(2, '0')}`;
             
             const res = await API.get(`/attendance/employee/${employee._id || employee.id}?from=${from}&to=${to}`);
             if (res.data.success) setEmployeeHistory(res.data.data.logs);

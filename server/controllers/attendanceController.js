@@ -10,11 +10,11 @@ import {
   getLeaveBalance,
   getAllActiveEmployeeIds,
 } from "../utils/attendanceHelpers.js";
+import { getTodayIST, getNowIST, getISTDateWithTime, getISTYear, getISTMonth } from "../utils/istHelper.js";
 
-// Helper to format date as YYYY-MM-DD
+// Helper to format date as YYYY-MM-DD in IST
 const getTodayDateString = () => {
-  const today = new Date();
-  return today.toISOString().split("T")[0];
+  return getTodayIST();
 };
 
 // Helper to find user across all collections
@@ -41,15 +41,14 @@ export const clockIn = async (req, res) => {
     }
 
     const config = await getUserConfig(userId);
-    const now = new Date();
+    const now = getNowIST();
 
-    // Parse shiftStart
+    // Parse shiftStart (in IST)
     const [startH, startM] = config.shiftStart.split(":").map(Number);
-    const shiftStartTime = new Date();
-    shiftStartTime.setHours(startH, startM, 0, 0);
+    const shiftStartTime = getISTDateWithTime(startH, startM);
 
     // Rule: Cannot clock in BEFORE shift start
-    if (now < shiftStartTime) {
+    if (now.getTime() < shiftStartTime.getTime()) {
       return res.status(400).json({ 
         success: false, 
         message: `You cannot clock in before your shift starts (${config.shiftStart})` 
@@ -61,24 +60,22 @@ export const clockIn = async (req, res) => {
     
     // Shift length in hours
     const [endH, endM] = config.shiftEnd.split(":").map(Number);
-    const shiftEndTimeForLength = new Date();
-    shiftEndTimeForLength.setHours(endH, endM, 0, 0);
     const shiftLengthHours = (endH + endM/60) - (startH + startM/60);
 
     // If more than half the shift has passed, mark as Half Day
     const halfDayThreshold = new Date(shiftStartTime.getTime() + (shiftLengthHours / 2) * 60 * 60 * 1000);
     
     let status = "Present";
-    if (now > halfDayThreshold) {
+    if (now.getTime() > halfDayThreshold.getTime()) {
       status = "Half Day";
-    } else if (now > lateThreshold) {
+    } else if (now.getTime() > lateThreshold.getTime()) {
       status = "Late";
     }
 
     const newAttendance = new Attendance({
       userId,
       date: todayStr,
-      clockIn: now,
+      clockIn: new Date(),
       status,
     });
 
@@ -108,22 +105,22 @@ export const clockOut = async (req, res) => {
     }
 
     const config = await getUserConfig(userId);
-    const now = new Date();
+    const now = getNowIST();
+    const actualNow = new Date(); // real UTC timestamp for storing
 
-    // Parse shift times
+    // Parse shift times (in IST)
     const [startH, startM] = config.shiftStart.split(":").map(Number);
     const [endH, endM] = config.shiftEnd.split(":").map(Number);
     
-    const shiftEndTime = new Date();
-    shiftEndTime.setHours(endH, endM, 0, 0);
+    const shiftEndTime = getISTDateWithTime(endH, endM);
 
     // Shift length in hours
     const shiftLengthHours = (endH + endM/60) - (startH + startM/60);
 
     // Rule: Cannot clock out BEFORE shift end
-    if (now < shiftEndTime) {
+    if (now.getTime() < shiftEndTime.getTime()) {
        // Check if less than half the shift is completed
-       const workedHours = calculateHours(record.clockIn, now);
+       const workedHours = calculateHours(record.clockIn, actualNow);
        if (workedHours < (shiftLengthHours / 2)) {
          record.status = "Half Day";
          // We allow clocking out early but it marks them as Half Day
@@ -135,10 +132,10 @@ export const clockOut = async (req, res) => {
        }
     }
 
-    record.clockOut = now;
+    record.clockOut = actualNow;
 
     // Calculate overtime dynamically
-    record.overtimeHours = Math.round((await calculateOvertimeHoursUser(userId, record.clockIn, now)) * 100) / 100;
+    record.overtimeHours = Math.round((await calculateOvertimeHoursUser(userId, record.clockIn, actualNow)) * 100) / 100;
 
     await record.save();
     res.status(200).json({ success: true, message: "Clocked out successfully", data: record });
@@ -186,8 +183,7 @@ export const getMyStats = async (req, res) => {
     ]);
 
     // Monthly stats for current month
-    const now = new Date();
-    const monthlyData = await calculateMonthlyStats(userId, now.getFullYear(), now.getMonth());
+    const monthlyData = await calculateMonthlyStats(userId, getISTYear(), getISTMonth());
 
     res.status(200).json({
       success: true,

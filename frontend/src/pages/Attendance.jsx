@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API } from '../data/api';
+import { getTodayIST } from '../utils/istHelper';
 import { 
     Calendar, Clock, CheckCircle2, Fingerprint, LogIn, LogOut, 
     TrendingUp, Umbrella, CalendarX, FileText, X, CalendarDays, 
@@ -147,7 +148,7 @@ export default function Attendance() {
         } finally { setRegSubmitting(false); }
     };
 
-    const todayStr = new Date().toISOString().split('T')[0];
+    const todayStr = getTodayIST();
     const todayLog = logs.find(log => log.date === todayStr);
     const hasClockedIn = !!todayLog;
     const hasClockedOut = hasClockedIn && !!todayLog.clockOut;

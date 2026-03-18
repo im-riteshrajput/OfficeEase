@@ -6,13 +6,14 @@ import Leave from "../models/Leave.js";
 import { verifyToken, authorize } from "../middleware/authMiddleware.js";
 import bcrypt from "bcryptjs";
 import { generateEmployeeId } from "../utils/employeeIdHelper.js";
+import { getTodayIST } from "../utils/istHelper.js";
 import { upload, cloudinary } from "../utils/cloudinary.js";
 
 const router = express.Router();
 
 // Helper to calculate dynamic status based on leaves
 const assignDynamicStatus = async (users) => {
-    const today = new Date().toISOString().split("T")[0];
+    const today = getTodayIST();
     const leaves = await Leave.find({
         status: "Approved",
         startDate: { $lte: today },
