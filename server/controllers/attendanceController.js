@@ -56,18 +56,24 @@ export const clockIn = async (req, res) => {
       });
     }
 
-    // Rule: Cannot clock in AFTER 1 hour
-    const shiftStartPlusOneHour = new Date(shiftStartTime.getTime() + 60 * 60 * 1000);
-    if (now > shiftStartPlusOneHour) {
-      return res.status(400).json({ 
-        success: false, 
-        message: `Clock-in window closed. You must clock in within 1 hour of your shift start (${config.shiftStart}). Please request regularization.` 
-      });
-    }
-
     // Late threshold is 15 mins after shift start
     const lateThreshold = new Date(shiftStartTime.getTime() + 15 * 60 * 1000);
-    const status = now > lateThreshold ? "Late" : "Present";
+    
+    // Shift length in hours
+    const [endH, endM] = config.shiftEnd.split(":").map(Number);
+    const shiftEndTimeForLength = new Date();
+    shiftEndTimeForLength.setHours(endH, endM, 0, 0);
+    const shiftLengthHours = (endH + endM/60) - (startH + startM/60);
+
+    // If more than half the shift has passed, mark as Half Day
+    const halfDayThreshold = new Date(shiftStartTime.getTime() + (shiftLengthHours / 2) * 60 * 60 * 1000);
+    
+    let status = "Present";
+    if (now > halfDayThreshold) {
+      status = "Half Day";
+    } else if (now > lateThreshold) {
+      status = "Late";
+    }
 
     const newAttendance = new Attendance({
       userId,
@@ -127,15 +133,6 @@ export const clockOut = async (req, res) => {
           message: `You cannot clock out before your shift ends (${config.shiftEnd}) unless it's a Half Day (less than ${Math.round(shiftLengthHours/2)} hours).` 
         });
        }
-    }
-
-    // Rule: Cannot clock out AFTER 1 hour of shift end
-    const shiftEndPlusOneHour = new Date(shiftEndTime.getTime() + 60 * 60 * 1000);
-    if (now > shiftEndPlusOneHour) {
-      return res.status(400).json({ 
-        success: false, 
-        message: `Clock-out window closed. You must clock out within 1 hour of your shift end (${config.shiftEnd}). Please request regularization.` 
-      });
     }
 
     record.clockOut = now;
