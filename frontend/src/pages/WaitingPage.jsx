@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { API } from '../data/api';
+import { Layers, MoreHorizontal, Loader2, Mail } from 'lucide-react';
 
 export default function WaitingPage() {
     const location = useLocation();
@@ -44,7 +45,7 @@ export default function WaitingPage() {
             <header className="relative z-10 flex justify-between items-center p-8">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-primary/20 border border-primary/30 flex items-center justify-center text-primary">
-                        <span className="material-symbols-outlined">layers</span>
+                        <Layers className="w-6 h-6" />
                     </div>
                     <span className="text-2xl font-black tracking-tighter text-white neon-glow-purple">OFFIFY</span>
                 </div>
@@ -57,7 +58,7 @@ export default function WaitingPage() {
                     {/* Icon */}
                     <div className="w-24 h-24 rounded-full border border-primary/20 flex items-center justify-center mb-8">
                         <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary shadow-[0_0_20px_rgba(124,59,237,0.4)]">
-                            <span className="material-symbols-outlined text-4xl">more_horiz</span>
+                            <MoreHorizontal className="w-10 h-10" />
                         </div>
                     </div>
 
@@ -82,7 +83,7 @@ export default function WaitingPage() {
                             ></div>
                         </div>
                         <div className="flex items-center justify-center gap-2 text-sm text-slate-400 font-medium">
-                            <span className="material-symbols-outlined text-accent-teal text-base animate-spin">sync</span>
+                            <Loader2 className="w-4 h-4 text-accent-teal animate-spin" />
                             {statusMessage}
                         </div>
                     </div>
@@ -90,7 +91,7 @@ export default function WaitingPage() {
                     {/* Actions */}
                     <div className="flex items-center gap-8">
                         <button className="flex items-center gap-3 px-6 py-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold transition-all">
-                            <span className="material-symbols-outlined text-lg">mail</span>
+                            <Mail className="w-[18px] h-[18px]" />
                             Contact Support
                         </button>
                         <Link to="/" className="text-slate-400 hover:text-white font-bold text-sm transition-colors">

@@ -2,7 +2,6 @@ import './App.css'
 import EmployeeData from "./data/EmployeeData.js"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { Analytics } from '@vercel/analytics/react'
 import Employees from "./pages/employees"
 import LoginPage from "./pages/loginPage.jsx"
 import DashboardLayout from './pages/dashboardLayout.jsx'
@@ -113,7 +112,6 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-      <Analytics />
     </div>
   )
 }

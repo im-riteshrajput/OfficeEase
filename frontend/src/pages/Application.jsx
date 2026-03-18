@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API } from '../data/api';
 import { getInitials } from '../utils/helpers';
+import { Loader2, CheckCircle2 } from 'lucide-react';
 
 export default function Applications() {
     const navigate = useNavigate();
@@ -82,12 +83,12 @@ export default function Applications() {
                     {/* Table Body */}
                     {loading ? (
                         <div className="p-12 text-center text-slate-400">
-                            <span className="material-symbols-outlined text-4xl animate-spin mb-4 block">sync</span>
+                            <Loader2 className="w-10 h-10 animate-spin mb-4 block mx-auto" />
                             Loading pending applications...
                         </div>
                     ) : pendingUsers.length === 0 ? (
                         <div className="p-12 text-center text-slate-400">
-                            <span className="material-symbols-outlined text-4xl mb-4 block text-accent-teal">check_circle</span>
+                            <CheckCircle2 className="w-10 h-10 mb-4 block text-accent-teal mx-auto" />
                             <p className="text-lg font-semibold text-white mb-1">All caught up!</p>
                             <p>No pending applications at the moment.</p>
                         </div>

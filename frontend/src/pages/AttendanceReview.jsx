@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { API } from '../data/api';
 import { getInitials } from '../utils/helpers';
+import { 
+    Fingerprint, Users, Clock, Calendar, BarChart3, 
+    Umbrella, FileText, Search, Download, History, 
+    Check, X, CalendarDays
+} from 'lucide-react';
 
 export default function AttendanceReview() {
     const navigate = useNavigate();
@@ -195,7 +200,7 @@ export default function AttendanceReview() {
                                 to="/attendance"
                                 className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-primary to-purple-500 text-white font-bold shadow-[0_0_20px_rgba(124,59,237,0.4)] hover:shadow-[0_0_30px_rgba(124,59,237,0.6)] transition-all text-sm justify-center"
                             >
-                                <span className="material-symbols-outlined text-[20px]">fingerprint</span>
+                                <Fingerprint className="w-[20px] h-[20px]" />
                                 My Attendance
                             </Link>
                         </div>
@@ -205,7 +210,7 @@ export default function AttendanceReview() {
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
                         <div className="glass-card border border-white/10 rounded-2xl p-6 relative overflow-hidden flex flex-col">
                             <div className="flex justify-between items-start mb-6">
-                                <span className="material-symbols-outlined text-purple-400">group</span>
+                                <Users className="w-6 h-6 text-purple-400" />
                                 <span className="text-[10px] font-bold text-slate-400 tracking-widest uppercase bg-white/5 px-2 py-1 rounded-md">Live</span>
                             </div>
                             <p className="text-sm font-medium text-slate-400 mb-1">Total Present</p>
@@ -213,21 +218,21 @@ export default function AttendanceReview() {
                         </div>
                         <div className="glass-card border border-amber-500/20 rounded-2xl p-6 relative overflow-hidden flex flex-col">
                             <div className="flex justify-between items-start mb-6">
-                                <span className="material-symbols-outlined text-amber-400">schedule</span>
+                                <Clock className="w-6 h-6 text-amber-400" />
                             </div>
                             <p className="text-sm font-medium text-slate-400 mb-1">Late Today</p>
                             <p className="text-4xl font-bold text-white leading-none">{stats?.late || 0}</p>
                         </div>
                         <div className="glass-card border border-blue-500/20 rounded-2xl p-6 relative overflow-hidden flex flex-col">
                             <div className="flex justify-between items-start mb-6">
-                                <span className="material-symbols-outlined text-blue-400">calendar_today</span>
+                                <Calendar className="w-6 h-6 text-blue-400" />
                             </div>
                             <p className="text-sm font-medium text-slate-400 mb-1">On Leave</p>
                             <p className="text-4xl font-bold text-white leading-none">{stats?.onLeave || 0}</p>
                         </div>
                         <div className="glass-card border border-emerald-500/20 rounded-2xl p-6 relative overflow-hidden flex flex-col">
                             <div className="flex justify-between items-start mb-6">
-                                <span className="material-symbols-outlined text-emerald-400">bar_chart</span>
+                                <BarChart3 className="w-6 h-6 text-emerald-400" />
                             </div>
                             <p className="text-sm font-medium text-slate-400 mb-1">Attendance Rate</p>
                             <p className="text-4xl font-bold text-white leading-none">{stats?.attendanceRate || "0%"}</p>
@@ -237,9 +242,9 @@ export default function AttendanceReview() {
                     {/* Tab Navigation */}
                     <div className="flex flex-wrap gap-1 mb-6 bg-white/5 p-1 rounded-xl border border-white/10 w-fit">
                         {[
-                            { key: "today", label: "Daily Logs", icon: "today" },
-                            { key: "leaves", label: "Leave Requests", icon: "beach_access" },
-                            { key: "regularizations", label: "Regularization Specs", icon: "edit_note" },
+                            { key: "today", label: "Daily Logs", icon: CalendarDays },
+                            { key: "leaves", label: "Leave Requests", icon: Umbrella },
+                            { key: "regularizations", label: "Regularization Specs", icon: FileText },
                         ].map(tab => (
                             <button
                                 key={tab.key}
@@ -250,7 +255,7 @@ export default function AttendanceReview() {
                                         : "text-slate-400 hover:text-white hover:bg-white/5"
                                 }`}
                             >
-                                <span className="material-symbols-outlined text-[18px]">{tab.icon}</span>
+                                <tab.icon className="w-[18px] h-[18px]" />
                                 <span>{tab.label}</span>
                                 {tab.key === "leaves" && allLeaves.filter(l => l.status === "Pending").length > 0 && (
                                     <span className="w-5 h-5 rounded-full bg-rose-500 text-white text-[10px] flex items-center justify-center">
@@ -274,7 +279,7 @@ export default function AttendanceReview() {
                             </h3>
                             <div className="flex gap-4 w-full sm:w-auto">
                                 <div className="relative flex-1 sm:flex-none">
-                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-[18px] h-[18px]" />
                                     <input
                                         type="text"
                                         value={searchQuery}
@@ -285,7 +290,7 @@ export default function AttendanceReview() {
                                 </div>
                                 {activeTab === "today" && (
                                     <button onClick={handleExportCSV} title="Export CSV for Date" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/5 transition-colors shrink-0">
-                                        <span className="material-symbols-outlined text-[20px]">download</span>
+                                        <Download className="w-[20px] h-[20px]" />
                                     </button>
                                 )}
                             </div>
@@ -368,7 +373,7 @@ export default function AttendanceReview() {
                                                             className="text-[11px] font-bold text-purple-400 hover:text-purple-300 tracking-widest uppercase flex items-center justify-end gap-1 w-full group"
                                                         >
                                                             <span>History</span>
-                                                            <span className="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">history</span>
+                                                            <History className="w-[14px] h-[14px] group-hover:translate-x-1 transition-transform" />
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -391,10 +396,10 @@ export default function AttendanceReview() {
                                                         {leave.status === "Pending" ? (
                                                             <div className="flex items-center justify-end gap-2">
                                                                 <button onClick={() => handleReviewLeave(leave._id, "Approved")} className="w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center hover:bg-emerald-500/20 transition-colors" title="Approve">
-                                                                    <span className="material-symbols-outlined text-[18px]">check</span>
+                                                                    <Check className="w-[18px] h-[18px]" />
                                                                 </button>
                                                                 <button onClick={() => handleReviewLeave(leave._id, "Rejected")} className="w-8 h-8 rounded-full bg-rose-500/10 text-rose-400 flex items-center justify-center hover:bg-rose-500/20 transition-colors" title="Reject">
-                                                                    <span className="material-symbols-outlined text-[18px]">close</span>
+                                                                    <X className="w-[18px] h-[18px]" />
                                                                 </button>
                                                             </div>
                                                         ) : (
@@ -427,10 +432,10 @@ export default function AttendanceReview() {
                                                         {req.status === "Pending" ? (
                                                             <div className="flex items-center justify-end gap-2">
                                                                 <button onClick={() => handleReviewRegularization(req._id, "Approved")} className="w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center hover:bg-emerald-500/20 transition-colors" title="Approve">
-                                                                    <span className="material-symbols-outlined text-[18px]">check</span>
+                                                                    <Check className="w-[18px] h-[18px]" />
                                                                 </button>
                                                                 <button onClick={() => handleReviewRegularization(req._id, "Rejected")} className="w-8 h-8 rounded-full bg-rose-500/10 text-rose-400 flex items-center justify-center hover:bg-rose-500/20 transition-colors" title="Reject">
-                                                                    <span className="material-symbols-outlined text-[18px]">close</span>
+                                                                    <X className="w-[18px] h-[18px]" />
                                                                 </button>
                                                             </div>
                                                         ) : (
@@ -462,7 +467,7 @@ export default function AttendanceReview() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={() => setSelectedEmployee(null)}>
                     <div className="glass-card border border-white/10 rounded-3xl p-6 sm:p-8 w-full max-w-3xl max-h-[90vh] flex flex-col relative animate-fade-in" onClick={e => e.stopPropagation()}>
                         <button onClick={() => setSelectedEmployee(null)} className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors z-10">
-                            <span className="material-symbols-outlined">close</span>
+                            <X className="w-5 h-5" />
                         </button>
                         
                         <div className="flex items-center gap-4 mb-6 pb-6 border-b border-white/10">

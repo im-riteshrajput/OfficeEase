@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API } from '../data/api';
+import { 
+    Calendar, Clock, CheckCircle2, Fingerprint, LogIn, LogOut, 
+    TrendingUp, Umbrella, CalendarX, FileText, X, CalendarDays, 
+    History, Search, LayoutList
+} from 'lucide-react';
 
 export default function Attendance() {
     const navigate = useNavigate();
@@ -189,8 +194,10 @@ export default function Attendance() {
                         <div>
                             <h1 className="text-4xl font-black text-white tracking-tight mb-2 uppercase">Attendance</h1>
                             <div className="flex items-center gap-2 text-slate-400 text-sm">
-                                <span className="material-symbols-outlined text-[18px]">calendar_today</span>
+                            <div className="flex items-center gap-2 text-slate-400 text-sm">
+                                <Calendar className="w-[18px] h-[18px]" />
                                 <span>{currentTime.toLocaleDateString([], { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                            </div>
                             </div>
                         </div>
 
@@ -211,9 +218,13 @@ export default function Attendance() {
                             <div className="absolute bottom-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[80px] rounded-full pointer-events-none"></div>
 
                             <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6 shadow-xl z-10 backdrop-blur-md">
-                                <span className={`material-symbols-outlined text-4xl ${hasClockedIn && !hasClockedOut ? 'text-amber-400' : hasClockedOut ? 'text-emerald-400' : 'text-purple-400'}`}>
-                                    {hasClockedIn && !hasClockedOut ? 'history_toggle_off' : hasClockedOut ? 'check_circle' : 'fingerprint'}
-                                </span>
+                                {hasClockedIn && !hasClockedOut ? (
+                                    <Clock className="w-10 h-10 text-amber-400" />
+                                ) : hasClockedOut ? (
+                                    <CheckCircle2 className="w-10 h-10 text-emerald-400" />
+                                ) : (
+                                    <Fingerprint className="w-10 h-10 text-purple-400" />
+                                )}
                             </div>
 
                             <h2 className="text-2xl font-bold text-white mb-2 z-10 text-center">
@@ -231,7 +242,7 @@ export default function Attendance() {
                                 <button onClick={() => setShowClockInConfirm(true)} disabled={clocking} className="relative group z-10">
                                     <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-full blur opacity-40 group-hover:opacity-75 transition duration-200"></div>
                                     <div className="relative px-8 lg:px-12 py-4 bg-gradient-to-r from-purple-500 to-cyan-400 rounded-full flex items-center gap-3 text-white font-bold text-lg shadow-xl shadow-purple-500/20 hover:scale-[1.02] transition-transform">
-                                        <span className="material-symbols-outlined">login</span>
+                                        <LogIn className="w-6 h-6" />
                                         CLOCK IN
                                     </div>
                                 </button>
@@ -241,7 +252,7 @@ export default function Attendance() {
                                 <button onClick={() => setShowClockOutConfirm(true)} disabled={clocking} className="relative group z-10">
                                     <div className="absolute -inset-1 bg-gradient-to-r from-amber-600 to-orange-500 rounded-full blur opacity-40 group-hover:opacity-75 transition duration-200"></div>
                                     <div className="relative px-8 lg:px-12 py-4 bg-gradient-to-r from-amber-500 to-orange-400 rounded-full flex items-center gap-3 text-white font-bold text-lg shadow-xl shadow-amber-500/20 hover:scale-[1.02] transition-transform">
-                                        <span className="material-symbols-outlined">logout</span>
+                                        <LogOut className="w-6 h-6" />
                                         CLOCK OUT
                                     </div>
                                 </button>
@@ -255,7 +266,7 @@ export default function Attendance() {
                                 <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-purple-500"></div>
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400">
-                                        <span className="material-symbols-outlined">schedule</span>
+                                        <Clock className="w-5 h-5" />
                                     </div>
                                     <span className="text-[10px] font-bold text-slate-400 tracking-widest uppercase">Target 40h</span>
                                 </div>
@@ -268,7 +279,7 @@ export default function Attendance() {
                                 <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-cyan-400"></div>
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400">
-                                        <span className="material-symbols-outlined">trending_up</span>
+                                        <TrendingUp className="w-5 h-5" />
                                     </div>
                                     <span className="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-[10px] font-bold tracking-widest uppercase">This Week</span>
                                 </div>
@@ -281,7 +292,7 @@ export default function Attendance() {
                                 <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-500"></div>
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400">
-                                        <span className="material-symbols-outlined">beach_access</span>
+                                        <Umbrella className="w-5 h-5" />
                                     </div>
                                     <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-[10px] font-bold tracking-widest uppercase">Accrued</span>
                                 </div>
@@ -294,11 +305,11 @@ export default function Attendance() {
                     {/* Action Buttons */}
                     <div className="flex flex-wrap gap-3 mb-8">
                         <button onClick={() => setShowLeaveModal(true)} className="flex items-center gap-2 px-5 py-3 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 hover:bg-blue-500/20 transition-colors font-bold text-sm">
-                            <span className="material-symbols-outlined text-[20px]">event_busy</span>
+                            <CalendarX className="w-[20px] h-[20px]" />
                             Apply for Leave
                         </button>
                         <button onClick={() => setShowRegModal(true)} className="flex items-center gap-2 px-5 py-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500/20 transition-colors font-bold text-sm">
-                            <span className="material-symbols-outlined text-[20px]">edit_note</span>
+                            <FileText className="w-[20px] h-[20px]" />
                             Request Regularization
                         </button>
                     </div>
@@ -306,9 +317,9 @@ export default function Attendance() {
                     {/* Tab Navigation */}
                     <div className="flex gap-1 mb-6 bg-white/5 p-1 rounded-xl border border-white/10 w-fit">
                         {[
-                            { key: "logs", label: "Attendance Logs", icon: "list_alt" },
-                            { key: "leaves", label: "Leave History", icon: "beach_access" },
-                            { key: "regularizations", label: "Regularizations", icon: "edit_note" },
+                            { key: "logs", label: "Attendance Logs", icon: LayoutList },
+                            { key: "leaves", label: "Leave History", icon: Umbrella },
+                            { key: "regularizations", label: "Regularizations", icon: FileText },
                         ].map(tab => (
                             <button
                                 key={tab.key}
@@ -319,7 +330,7 @@ export default function Attendance() {
                                         : "text-slate-400 hover:text-white hover:bg-white/5"
                                 }`}
                             >
-                                <span className="material-symbols-outlined text-[18px]">{tab.icon}</span>
+                                <tab.icon className="w-[18px] h-[18px]" />
                                 <span className="hidden sm:inline">{tab.label}</span>
                             </button>
                         ))}
@@ -488,11 +499,11 @@ export default function Attendance() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={() => setShowLeaveModal(false)}>
                     <div className="glass-card border border-white/10 rounded-3xl p-6 sm:p-8 w-full max-w-lg relative animate-fade-in" onClick={e => e.stopPropagation()}>
                         <button onClick={() => setShowLeaveModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors">
-                            <span className="material-symbols-outlined">close</span>
+                            <X className="w-5 h-5" />
                         </button>
                         <div className="flex items-center gap-3 mb-6">
                             <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
-                                <span className="material-symbols-outlined text-blue-400">event_busy</span>
+                                <CalendarX className="w-6 h-6 text-blue-400" />
                             </div>
                             <h2 className="text-xl font-bold text-white">Apply for Leave</h2>
                         </div>
@@ -533,11 +544,11 @@ export default function Attendance() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={() => setShowRegModal(false)}>
                     <div className="glass-card border border-white/10 rounded-3xl p-6 sm:p-8 w-full max-w-lg relative animate-fade-in" onClick={e => e.stopPropagation()}>
                         <button onClick={() => setShowRegModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors">
-                            <span className="material-symbols-outlined">close</span>
+                            <X className="w-5 h-5" />
                         </button>
                         <div className="flex items-center gap-3 mb-6">
                             <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center">
-                                <span className="material-symbols-outlined text-amber-400">edit_note</span>
+                                <FileText className="w-6 h-6 text-amber-400" />
                             </div>
                             <h2 className="text-xl font-bold text-white">Request Regularization</h2>
                         </div>
@@ -581,7 +592,7 @@ export default function Attendance() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={() => setShowClockInConfirm(false)}>
                     <div className="glass-card border border-white/10 rounded-3xl p-6 sm:p-8 w-full max-w-sm text-center relative animate-fade-in" onClick={e => e.stopPropagation()}>
                         <div className="w-16 h-16 rounded-full bg-purple-500/20 flex items-center justify-center mx-auto mb-4">
-                            <span className="material-symbols-outlined text-purple-400 text-3xl">login</span>
+                            <LogIn className="w-8 h-8 text-purple-400" />
                         </div>
                         <h2 className="text-xl font-bold text-white mb-2">Confirm Clock In</h2>
                         <p className="text-slate-400 text-sm mb-6">Are you sure you want to clock in now? The time recorded will be <span className="text-white font-bold">{formatTime(currentTime)}</span>.</p>
@@ -602,7 +613,7 @@ export default function Attendance() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={() => setShowClockOutConfirm(false)}>
                     <div className="glass-card border border-white/10 rounded-3xl p-6 sm:p-8 w-full max-w-sm text-center relative animate-fade-in" onClick={e => e.stopPropagation()}>
                         <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
-                            <span className="material-symbols-outlined text-amber-400 text-3xl">logout</span>
+                            <LogOut className="w-8 h-8 text-amber-400" />
                         </div>
                         <h2 className="text-xl font-bold text-white mb-2">Confirm Clock Out</h2>
                         <p className="text-slate-400 text-sm mb-6">Are you sure you want to clock out? Ensure your shift is complete or you may be marked for a Half Day.</p>
